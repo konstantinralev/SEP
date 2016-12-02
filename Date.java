@@ -15,14 +15,17 @@ public class Date
    {
       return day;
    }
+   
    public int getMonth()
    {
       return month;
    }
+   
    public int getYear()
    {
       return year;
    }
+   
    public void set(int day, int month, int year){
       this.day = day;
       this.month = month;
@@ -30,8 +33,6 @@ public class Date
    }
    
    public Date copy(){
-      return new Date(day, month, year);
+      return new Date(this.day, this.month, this.year);
    }
-   
-
 }
