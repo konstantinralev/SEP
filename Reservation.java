@@ -10,6 +10,7 @@ public class Reservation
       private Service service;
       private Customer customer;
       private Bus bus;
+      private Chauffeur chauffeur;
       
       public Reservation(int numberOfPassengers, double price, int resNum){
          numberOfReservation++;
