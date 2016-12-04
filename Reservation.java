@@ -4,7 +4,11 @@ public class Reservation
    private double price;
    private boolean isPaid;
    
-   
+    /**
+    * sets the number of passengers and price of each reservation
+    * @param numOfPassengers
+    * @param price
+    */
    public Reservation(int numOfPassengers, double price){
       this.numberOfPassengers = numOfPassengers;
       this.price = price;
