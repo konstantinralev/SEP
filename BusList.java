@@ -57,6 +57,25 @@ public class BusList
       return null;
    }
    
+   /**
+    * adds a bus to the ArrayList.
+    * @param bus
+    */
+   public void addBus(Bus bus){
+      buses.add(bus);
+   }
+   
+   /**
+    * removes a bus from the ArrayList.
+    * @param 
+    */
+   public void removeBus(int id){
+      for(int i = 0; i< buses.size();i++){
+         if(buses.get(i).getId() == id){
+            buses.remove(buses.get(i));
+         }
+      }
+   }
    
    /**
     * @return a string with bus' information
