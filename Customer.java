@@ -9,6 +9,12 @@ public class Customer
    private String name;
    private String email;
    
+   /**
+    * set the name, address and phoneNumber for each customer.
+    * @param name
+    * @param address
+    * @param phoneNumber
+    */
    public Customer(String name, String address, String phoneNumber){
       this.name  = name;
       this.address = address;
