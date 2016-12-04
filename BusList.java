@@ -64,7 +64,7 @@ public class BusList
    public String toString(){
       String message ="";
       for(int i =0;i<buses.size();i++){
-        message += "\n" + buses.get(i) + "\n";
+        message += "\n" + buses.get(i).toString() + "\n";
       }
       return  "Buses:\n" + message;
    }
