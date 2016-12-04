@@ -5,11 +5,13 @@ public class CustomerList
    private ArrayList<Customer> customers;
    
    /**
-    * the constructor initializes the ArrayList of customers.
+    * the constructor initializes an ArrayList of customers
     */
    public CustomerList(){
       this.customers = new ArrayList<Customer>();
    }
+   
+   
    /**
     * adds a customer to the ArrayList
     * @param customer
@@ -30,7 +32,7 @@ public class CustomerList
    
    /**
     * 
-    * @return the number of customers in the ArrayList.
+    * @return the number of customers in the ArrayList
     */
    public int getNumberOfCustomers(){
       return customers.size();
@@ -40,7 +42,7 @@ public class CustomerList
    /**
     * 
     * @param customerName
-    * @return the customer whose name coincides with one stated in the parameter. 
+    * @return the customers whose name coincides with one stated in the parameter 
     */
    public ArrayList<Customer> getCustomer(String customerName){
       ArrayList<Customer> customersByName = new ArrayList<Customer>();
@@ -58,23 +60,24 @@ public class CustomerList
     * @param customer
     * @return if a customer is regular
     */
-   public boolean isRegular(String customer){
-      for(int i =0;i<customers.size();i++){
-         if(customers.get(i).getName().equals(customer)){
+   public boolean isRegular(String customerName){
+      for(int i = 0; i < customers.size(); i++){
+         if(customers.get(i).getName().equals(customerName)){
             return true;
          }
       }
       return false;
    }
+   
+   
    /**
     * @return a list with the customer's information
     */
    public String toString(){
-      String message ="";
-      
-     for(int i =0;i<customers.size();i++){
-        message +=  "\n" + customers.toString() + "\n";
+      String text = "Customers:\n";   
+     for(int i = 0; i < customers.size(); i++){
+        text +=  "\n" + customers.get(i).toString() + "\n";
      }
-     return   "\nCustomers: " + message;
+     return text;
    }
 }
