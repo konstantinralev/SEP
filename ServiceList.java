@@ -72,6 +72,6 @@ public class ServiceList
       for(int i =0;i<services.size();i++){
          message +=  "\n" + services.toString() + "\n";
       }
-      return   "\nServices: " + message;
+      return   "Services:\n " + message;
     }
  }
