@@ -21,65 +21,15 @@ public class Customer
       this.phoneNumber = phoneNumber;
       
    }
-
-   /**
-    * @return the address
+   
+   
+    /**
+    * @param name to set the name
     */
-   public String getAddress()
+   public void setName(String name)
    {
-      return address;
+      this.name = name;
    }
-
-
-
-   /**
-    * @param address the address to set
-    */
-   public void setAddress(String address)
-   {
-      this.address = address;
-   }
-
-
-
-   /**
-    * @return the phoneNumber
-    */
-   public String getPhoneNumber()
-   {
-      return phoneNumber;
-   }
-
-
-
-   /**
-    * @param phoneNumber the phoneNumber to set
-    */
-   public void setPhoneNumber(String phoneNumber)
-   {
-      this.phoneNumber = phoneNumber;
-   }
-
-
-
-   /**
-    * @return the birthday
-    */
-   public Date getBirthday()
-   {
-      return birthday;
-   }
-
-
-
-   /**
-    * @param birthday the birthday to set
-    */
-   public void setBirthday(Date birthday)
-   {
-      this.birthday = birthday;
-   }
-
 
 
    /**
@@ -91,17 +41,70 @@ public class Customer
    }
 
 
-
    /**
-    * @param name the name to set
+    * @param address to set the address
     */
-   public void setName(String name)
+   public void setAddress(String address)
    {
-      this.name = name;
+      this.address = address;
    }
 
 
+   /**
+    * @return the address
+    */
+   public String getAddress()
+   {
+      return address;
+   }
 
+
+   /**
+    * @param phoneNumber to set the phoneNumber
+    */
+   public void setPhoneNumber(String phoneNumber)
+   {
+      this.phoneNumber = phoneNumber;
+   }
+
+
+   /**
+    * @return the phoneNumber
+    */
+   public String getPhoneNumber()
+   {
+      return phoneNumber;
+   }
+
+
+   /**
+    * @param birthday to set the birthday
+    */
+   public void setBirthday(Date birthday)
+   {
+      this.birthday = birthday;
+   }
+
+
+   /**
+    * @return the birthday
+    */
+   public Date getBirthday()
+   {
+      return birthday;
+   }
+
+   
+   
+   /**
+    * @param email to set the email
+    */
+   public void setEmail(String email)
+   {
+      this.email = email;
+   }
+
+   
    /**
     * @return the email
     */
@@ -110,16 +113,7 @@ public class Customer
       return email;
    }
 
-
-
-   /**
-    * @param email the email to set
-    */
-   public void setEmail(String email)
-   {
-      this.email = email;
-   }
-
+   
    /**
     * @return a string with a customer's information
     */
