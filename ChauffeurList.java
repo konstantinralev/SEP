@@ -4,9 +4,14 @@ public class ChauffeurList
 {
    private ArrayList<Chauffeur> chauffeurs;   
    
+    /**
+    * the constructor initializes the ArrayList of chauffeur.
+    */
    public ChauffeurList(){
       chauffeurs = new ArrayList<Chauffeur>();
    }
+   
+   
    /**
     * look for a chauffeur by id
     * @param id
