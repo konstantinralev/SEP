@@ -20,8 +20,6 @@ public class Bus
       return capacity;
    }
 
-
-
    /**
     * @param capacity the capacity to set
     */
@@ -29,8 +27,6 @@ public class Bus
    {
       this.capacity = capacity;
    }
-
-
 
    /**
     * @return the id
@@ -40,8 +36,6 @@ public class Bus
       return id;
    }
 
-
-
    /**
     * @param id the id to set
     */
@@ -49,8 +43,6 @@ public class Bus
    {
       this.id = id;
    }
-
-
 
    /**
     * @return the type
@@ -60,8 +52,6 @@ public class Bus
       return type;
    }
 
-
-
    /**
     * @param type the type to set
     */
@@ -70,27 +60,6 @@ public class Bus
       this.type = type;
    }
 
-
-
-   /**
-    * @return the reservation
-    */
-   public Reservation getReservation()
-   {
-      return reservation;
-   }
-
-
-
-   /**
-    * @param reservation the reservation to set
-    */
-   public void setReservation(Reservation reservation)
-   {
-      this.reservation = reservation;
-   }
-
-   
    public int getFreeSeats(){
       return capacity - reservation.getNumberOfPassengers();
    }
