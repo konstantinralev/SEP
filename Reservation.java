@@ -3,6 +3,7 @@ public class Reservation
    private int numberOfPassengers;
    private double price;
    private boolean isPaid;
+   private Customer customer;
    
     /**
     * sets the number of passengers and price of each reservation
@@ -68,5 +69,30 @@ public class Reservation
       this.isPaid = true;
    }
 
+   /**
+    * @param customer
+    */
+   public void setCustomer(Customer customer)
+   {
+      this.customer = customer;
+   }
+   
+   /**
+    * @return a customer
+    */
+   public Customer getCustomer(){
+      return customer;
 
+   }
+
+   /**
+    * @return the information about each reservation
+    */
+   public String toString()
+   {
+      return "NumberOfPassengers:" + numberOfPassengers
+            + "\nprice=" + price + "\nisPaid=" + isPaid + "\ncustomer: "
+            + customer;
+   }
+   
 }
