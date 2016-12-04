@@ -5,7 +5,7 @@ public class ChauffeurList
    private ArrayList<Chauffeur> chauffeurs;   
    
     /**
-    * the constructor initializes the ArrayList of chauffeur.
+    * the constructor initializes an ArrayList of chauffeurs.
     */
    public ChauffeurList(){
       chauffeurs = new ArrayList<Chauffeur>();
@@ -15,7 +15,7 @@ public class ChauffeurList
    /**
     * look for a chauffeur by id
     * @param id
-    * @return chauffeur
+    * @return chauffeur with the matching id
     */
    public Chauffeur getChauffeur(int id){
       for(int i = 0; i < chauffeurs.size(); i++){
