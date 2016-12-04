@@ -96,6 +96,6 @@ public class Bus
    *@return a string with information about a bus
    */
    public String toString(){
-      return "Capacity: " + capacity + "\nPlate Number: " + id + "\nType: " + type;
+      return "Capacity: " + capacity + "\nPlate Number: " + id + "\nType: " + type + "\n";
    }
 }
