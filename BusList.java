@@ -8,28 +8,24 @@ public class BusList
       this.buses = new ArrayList<Bus>();
    }
    
-   public Bus[] getAvailableBuses(DateInterval dateInterval){
-      int size = 0;
-      Bus[] AvailableBuses = new Bus[size];
+   public ArrayList<Bus> getAvailableBuses(DateInterval dateInterval){
+      ArrayList<Bus> availableBuses = new ArrayList<Bus>();
       for(int i =0;i<buses.size();i++){
          if(buses.get(i).isAvailable(dateInterval)){
-         AvailableBuses[i] = buses.get(i);
-         i++;
+            availableBuses.add(buses.get(i));
          }
       }
-      return AvailableBuses;
+      return availableBuses;
     }
    
-   public Bus[] getAppropateBuses(String type){
-      int size = 0;
-      Bus[] AppropiateBuses = new Bus[size];
+   public ArrayList<Bus> getAppropriateBuses(String type){
+      ArrayList<Bus> appropriateBuses = new ArrayList<Bus>();
       for(int i =0;i<buses.size();i++){
          if(buses.get(i).getType().equals(type)){
-         AppropiateBuses[i] = buses.get(i);
-         i++;
+            appropriateBuses.add(buses.get(i));
          }
       }
-      return AppropiateBuses;
+      return appropriateBuses;
    }
    
    public Bus getBus(int id){
