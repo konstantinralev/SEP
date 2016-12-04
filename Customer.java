@@ -118,13 +118,13 @@ public class Customer
     * @return a string with a customer's information
     */
    public String toString(){
-      String message = "Customer name: " + name + "\nAddress: " + address + "\nPhone number" + phoneNumber;
+      String text = "Customer name: " + name + "\nAddress: " + address + "\nPhone number" + phoneNumber  + "\n";
       if(email != null){
-         message += "\nEmail:" + email;
+         text += "Email:" + email + "\n";
       }
       if(birthday != null){
-         message += "\nBirthday: " + birthday;
+         text += "Birthday: " + birthday + "\n";
       }
-      return message;
+      return text;
       }
 }
