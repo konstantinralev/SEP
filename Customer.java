@@ -1,3 +1,5 @@
+import java.util.Date;
+
 
 public class Customer
 {
@@ -14,69 +16,115 @@ public class Customer
       
    }
 
-   public void setAddress(String address)
-   {
-      this.address = address;
-   }
-
-   public void setPhoneNumber(String phoneNumber)
-   {
-      this.phoneNumber = phoneNumber;
-   }
-
-   public void setBirthday(Date birthday)
-   {
-      this.birthday = birthday;
-   }
-
-   public void setName(String name)
-   {
-      this.name = name;
-   }
-
-   public void setEmail(String email)
-   {
-      this.email = email;
-   }
-
+   /**
+    * @return the address
+    */
    public String getAddress()
    {
       return address;
    }
 
+
+
+   /**
+    * @param address the address to set
+    */
+   public void setAddress(String address)
+   {
+      this.address = address;
+   }
+
+
+
+   /**
+    * @return the phoneNumber
+    */
    public String getPhoneNumber()
    {
       return phoneNumber;
    }
 
+
+
+   /**
+    * @param phoneNumber the phoneNumber to set
+    */
+   public void setPhoneNumber(String phoneNumber)
+   {
+      this.phoneNumber = phoneNumber;
+   }
+
+
+
+   /**
+    * @return the birthday
+    */
    public Date getBirthday()
    {
       return birthday;
    }
 
+
+
+   /**
+    * @param birthday the birthday to set
+    */
+   public void setBirthday(Date birthday)
+   {
+      this.birthday = birthday;
+   }
+
+
+
+   /**
+    * @return the name
+    */
    public String getName()
    {
       return name;
    }
 
+
+
+   /**
+    * @param name the name to set
+    */
+   public void setName(String name)
+   {
+      this.name = name;
+   }
+
+
+
+   /**
+    * @return the email
+    */
    public String getEmail()
    {
       return email;
    }
-   
-   public String toString(){
-      String message = "";
-      if(email != null && birthday != null){
-         message = "Customer name: " + name + "\n" + "Address: " + address + "\n" + "Phone number" + phoneNumber + "\n" + "Email:" + email + "\n" + "Birthday: " + birthday;
-      }else if (email == null && birthday == null){
-         message = "Customer name: " + name + "\n" + "Address: " + address + "\n" + "Phone number" + phoneNumber;
-      }else if (email != null && birthday == null){
-         message = "Customer name: " + name + "\n" + "Address: " + address + "\n" + "Phone number" + phoneNumber + "\n" + "Birthday: " + birthday;
-      }else if (email == null && birthday != null){
-         message = "Customer name: " + name + "\n" + "Address: " + address + "\n" + "Phone number" + phoneNumber + "\n" + "Email: " + email;
-      }
-      return message;
-      
+
+
+
+   /**
+    * @param email the email to set
+    */
+   public void setEmail(String email)
+   {
+      this.email = email;
    }
 
+
+
+   
+   public String toString(){
+      String message = "Customer name: " + name + "\nAddress: " + address + "\nPhone number" + phoneNumber;
+      if(email != null){
+         message += "\nEmail:" + email;
+      }
+      if(birthday != null){
+         message += "\nBirthday: " + birthday;
+      }
+      return message;
+      }
 }
