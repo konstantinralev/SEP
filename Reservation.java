@@ -5,8 +5,10 @@ public class Reservation
    private boolean isPaid;
    private Customer customer;
    
+   
     /**
     * sets the number of passengers and price of each reservation
+    * the reservation is set to "not paid"(isPaid=false) by default
     * @param numOfPassengers
     * @param price
     */
@@ -16,6 +18,16 @@ public class Reservation
       isPaid = false;
    }
    
+   
+   /**
+    * @param numberOfPassengers to set the numberOfPassengers
+    */
+   public void setNumberOfPassengers(int numberOfPassengers)
+   {
+      this.numberOfPassengers = numberOfPassengers;
+   }
+
+
    /**
     * @return the numberOfPassengers
     */
@@ -26,11 +38,11 @@ public class Reservation
 
 
    /**
-    * @param numberOfPassengers the numberOfPassengers to set
+    * @param price to set the price
     */
-   public void setNumberOfPassengers(int numberOfPassengers)
+   public void setPrice(double price)
    {
-      this.numberOfPassengers = numberOfPassengers;
+      this.price = price;
    }
 
 
@@ -44,16 +56,7 @@ public class Reservation
 
 
    /**
-    * @param price the price to set
-    */
-   public void setPrice(double price)
-   {
-      this.price = price;
-   }
-
-
-   /**
-    * @return the isPaid
+    * @return if the reservation is paid
     */
    public boolean isPaid()
    {
@@ -62,37 +65,29 @@ public class Reservation
 
 
    /**
-    * @param isPaid the isPaid to set
+    * when a customer pays for his reservation, isPaid is set to true
     */
    public void setPaid()
    {
       this.isPaid = true;
    }
-
-   /**
-    * @param customer
-    */
-   public void setCustomer(Customer customer)
-   {
-      this.customer = customer;
-   }
+   
    
    /**
-    * @return a customer
+    * @return a customer who made the reservation
     */
    public Customer getCustomer(){
       return customer;
-
    }
 
+   
    /**
-    * @return the information about each reservation
+    * @return information about each reservation
     */
    public String toString()
    {
       return "NumberOfPassengers:" + numberOfPassengers
-            + "\nprice=" + price + "\nisPaid=" + isPaid + "\ncustomer: "
-            + customer;
-   }
-   
+            + "\nPrice=" + price + "\nPaid=" + isPaid + "\nCustomer: "
+            + customer + "\n";
+   }   
 }
