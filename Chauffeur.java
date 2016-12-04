@@ -26,7 +26,16 @@ public class Chauffeur
       this.email = email;
    }
    
-  
+
+   /**
+    * @param name to set the name
+    */
+   public void setName(String name)
+   {
+      this.name = name;
+   }
+
+   
    /**
     * @return the name
     */
@@ -35,13 +44,13 @@ public class Chauffeur
       return name;
    }
 
-
+   
    /**
-    * @param name to set the name
+    * @param id to set the id
     */
-   public void setName(String name)
+   public void setId(int id)
    {
-      this.name = name;
+      this.id = id;
    }
 
 
@@ -53,13 +62,13 @@ public class Chauffeur
       return id;
    }
 
-
+   
    /**
-    * @param id to set the id
+    * @param phoneNumber to set the phoneNumber
     */
-   public void setId(int id)
+   public void setPhoneNumber(String phoneNumber)
    {
-      this.id = id;
+      this.phoneNumber = phoneNumber;
    }
 
 
@@ -72,24 +81,7 @@ public class Chauffeur
    }
 
 
-   /**
-    * @param phoneNumber to set the phoneNumber
-    */
-   public void setPhoneNumber(String phoneNumber)
-   {
-      this.phoneNumber = phoneNumber;
-   }
-
-
-   /**
-    * @return the address
-    */
-   public String getAddress()
-   {
-      return address;
-   }
-
-
+   
    /**
     * @param address to set the address
     */
@@ -99,12 +91,13 @@ public class Chauffeur
    }
 
 
+   
    /**
-    * @return the wishes
+    * @return the address
     */
-   public String getWishes()
+   public String getAddress()
    {
-      return wishes;
+      return address;
    }
 
 
@@ -118,11 +111,11 @@ public class Chauffeur
 
 
    /**
-    * @return the email
+    * @return the wishes
     */
-   public String getEmail()
+   public String getWishes()
    {
-      return email;
+      return wishes;
    }
 
 
@@ -136,16 +129,23 @@ public class Chauffeur
    
    
    /**
+    * @return the email
+    */
+   public String getEmail()
+   {
+      return email;
+   }
+
+
+   /**
     * @return a String with information about the chauffeur
     */
    public String toString(){
-      if(wishes!=null){
-         return "Name: " + name + "\nEmployee ID: " + id + "\nAddress: " + address +
-               "\nPhone number: " + phoneNumber + "\nE-mail: " + email + "\nWishes: " + wishes;
-      }
-      else{
-         return "Name: " + name + "\nEmployee ID: " + id + "\nAddress: " + address +
+      String text = "Name: " + name + "\nEmployee ID: " + id + "\nAddress: " + address +
                "\nPhone number: " + phoneNumber + "\nE-mail: " + email;
+      if(wishes!=null){
+         text += "\nWishes: " + wishes;
       }
+      return text;
    }
 }
