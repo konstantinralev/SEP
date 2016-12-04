@@ -114,9 +114,9 @@ public class Customer
       this.email = email;
    }
 
-
-
-   
+   /**
+    * @return a string with a customer's information
+    */
    public String toString(){
       String message = "Customer name: " + name + "\nAddress: " + address + "\nPhone number" + phoneNumber;
       if(email != null){
