@@ -6,7 +6,7 @@ public class ReservationList
    private ArrayList<Reservation> reservations;
    
    /**
-    * the constructor initializes the ArrayList of reservations.
+    * the constructor initializes an ArrayList of reservations
     */
    public ReservationList(){
       this.reservations = new ArrayList<Reservation>();
@@ -35,13 +35,14 @@ public class ReservationList
     * @param customerName
     * @return
     */
-   public Reservation getReservation(String customerName){
-      for(int i =0;i<reservations.size();i++){
+   public ArrayList<Reservations> getReservation(String customerName){
+      ArrayList<Reservations> customerReservations = new ArrayList<Reservation>();
+      for(int i = 0; i < reservations.size(); i++){
          if(reservations.get(i).getCustomer().getName().equals(customerName)){
-            return reservations.get(i);
+            customerReservations.add(reservations.get(i));
          }
       }
-      return null;
+      return customerReservations;
    }
    
    
@@ -50,7 +51,7 @@ public class ReservationList
     */
    public ArrayList<Reservation> getPaidReservations(){
       ArrayList<Reservation> paidReservations = new ArrayList<Reservation>();
-      for(int i =0; i<reservations.size(); i++){
+      for(int i = 0; i < reservations.size(); i++){
          if(reservations.get(i).isPaid() == true){
             paidReservations.add(reservations.get(i));
          }
@@ -71,16 +72,17 @@ public class ReservationList
       }
       return unpaidReservations;
    }
+   
+   
    /**
     * @return all the reservations information
     */
    public String toString(){
-      String message ="";
-      
-      for(int i =0;i<reservations.size();i++){
-         message += "\n"+ reservations.toString() + "\n";
+      String text = "Reservation:\n";   
+      for(int i = 0; i < reservations.size(); i++){
+         text += "\n"+ reservations.toString() + "\n";
       }
-      return "Reservation:\n" + message;
+      return text;
       }
    
 }
