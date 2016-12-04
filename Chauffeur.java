@@ -8,7 +8,15 @@ public class Chauffeur
    private String wishes;
    private String email;
    
-   
+    /**
+    * sets the name, id, address, wishes, email and phoneNumber for each chauffeur
+    * @param name
+    * @param id
+    * @param address
+    * @param wishes
+    * @param email
+    * @param phoneNumber
+    */
    public Chauffeur(String name, int id, String address, String wishes, String email, String phoneNumber){
       this.name = name;
       this.id = id;
