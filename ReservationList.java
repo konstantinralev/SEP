@@ -6,7 +6,7 @@ public class ReservationList
    private ArrayList<Reservation> reservations;
 
    public ReservationList(){
-      this.reservations = new ArrayList<Reservation>();
+      this.reservationss = new ArrayList<Reservation>();
    }
    
    public void addReservation(Reservation reservation){

@@ -12,7 +12,7 @@ public class CustomerList
       customers.add(customer);
    }
    
-   public void RemoveCustomer(Customer customer){
+   public void removeCustomer(Customer customer){
       customers.add(customer);
    }
    
@@ -20,15 +20,16 @@ public class CustomerList
       return customers.size();
    }
    
-   public Customer getCustomer(String customerName){
+   public ArrayList<Customer> getCustomer(String customerName){
+      ArrayList<Customer> customersByName = new ArrayList<Customer>();
       for(int i =0;i<customers.size();i++){
          if(customers.get(i).getName().equals(customerName)){
-            return customers.get(i);
+            customersByName.add(customers.get(i));
          }
       }
-      return null;
+      return customersByName;
    }
-   public boolean isRegular(Customer customer){
+   public boolean isRegular(String customer){
       for(int i =0;i<customers.size();i++){
          if(customers.get(i).getName().equals(customer)){
             return true;
