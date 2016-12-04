@@ -20,7 +20,7 @@ public class Bus
 
    
    /**
-    * @param capacity the capacity to set
+    * @param capacity to set the capacity
     */
    public void setCapacity(int capacity)
    {
@@ -38,7 +38,7 @@ public class Bus
    
    
    /**
-    * @param id the id to set
+    * @param id to set the id
     */
    public void setId(int id)
    {
@@ -56,7 +56,7 @@ public class Bus
 
 
    /**
-    * @param type the type to set
+    * @param type to set the type of the bus
     */
    public void setType(String type)
    {
@@ -65,7 +65,7 @@ public class Bus
 
    
    /**
-    * @return the type
+    * @return the type of the bus
     */
    public String getType()
    {
@@ -76,20 +76,26 @@ public class Bus
    /**
     * 
     * @param dateInterval
-    * @return if the bus is available
+    * @return if the bus is available for the specified date interval
     */
    public boolean isAvailable(DateInterval dateInterval){
       //put code checking for availability here
    }
    
    
+   /**
+   *
+   * @return the number of free seats in bus
+   */
    public int getFreeSeats(){
       return capacity - reservation.getNumberOfPassengers();
    }
    
-   
+   /**
+   *
+   *@return a string with information about a bus
+   */
    public String toString(){
       return "Capacity: " + capacity + "\nPlate Number: " + id + "\nType: " + type;
    }
-
 }
