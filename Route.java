@@ -16,20 +16,6 @@ public class Route
    
    
    /**
-    * @param placeofArrival
-    */
-   public void setPlaceOfArrival(String placeofArrival){
-      this.placeOfArrival = placeofArrival;
-   }
-   
-   /**
-    * @return placeOfArrival
-    */
-   public String getPlaceOfArrival(){
-      return placeOfArrival;
-   }
-   
-   /**
     * @param placeofDeparture
     */
    public void setPlaceOfDeparture(String placeofDeparture){
@@ -41,6 +27,21 @@ public class Route
     */
    public String getPlaceOfDeparture(){
       return placeOfDeparture;
+   }
+   
+   
+   /**
+    * @param placeofArrival
+    */
+   public void setPlaceOfArrival(String placeofArrival){
+      this.placeOfArrival = placeofArrival;
+   }
+   
+   /**
+    * @return placeOfArrival
+    */
+   public String getPlaceOfArrival(){
+      return placeOfArrival;
    }
    
    
