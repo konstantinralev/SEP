@@ -15,9 +15,11 @@ public class Reservation
     * @param numOfPassengers
     * @param price
     */
-   public Reservation(int numOfPassengers){
+   public Reservation(int numOfPassengers, Customer customer){
       this.numberOfPassengers = numOfPassengers;
+	   this.customer= customer;
       isPaid = false;
+
    }
    
    
