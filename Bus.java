@@ -6,14 +6,13 @@ public class Bus
    private String type;
    private Reservation reservation;
    
+   
    /**
-    * sets the type, capacity and plate number of each bus
-    * @param type
+    * sets the capacity and plate number of each bus
     * @param capacity
     * @param id
     */
-   public Bus(String type, int capacity, int id){
-      this.type= type;
+   public Bus(int capacity, int id){
       this.capacity = capacity;
       this.id = id;
    }
@@ -65,6 +64,22 @@ public class Bus
 
    
    /**
+    * the type of the bus could be automatically determined by the bus' capacity
+    */
+   public void setTypeByCapacity(){
+	   if(this.capacity <= 15){
+		   this.type = "Mini bus";
+	   }
+	   if(this.capacity > 15 && this.capacity >= 30){
+		   this.type = "Luxury bus";
+	   }
+	   else{
+		   this.type = "Party bus";
+	   }
+   }
+   
+   
+   /**
     * @return the type of the bus
     */
    public String getType()
@@ -72,24 +87,6 @@ public class Bus
       return type;
    }
 
-   
-   /**
-    * 
-    * @param dateInterval
-    * @return if the bus is available for the specified date interval
-    */
-   public boolean isAvailable(DateInterval dateInterval){
-      //put code checking for availability here
-   }
-   
-   
-   /**
-   *
-   * @return the number of free seats in bus
-   */
-   public int getFreeSeats(){
-      return capacity - reservation.getNumberOfPassengers();
-   }
    
    /**
    *
