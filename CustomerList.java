@@ -25,8 +25,12 @@ public class CustomerList
     * removes a customer from the ArrayList
     * @param customer
     */
-   public void removeCustomer(Customer customer){
-      customers.add(customer);
+   public void removeCustomer(String name){
+      for (int i = 0; i < customers.size(); i++) {
+		if (customers.get(i).getName().equalsIgnoreCase(name)) {
+			customers.remove(i);
+		}
+	}
    }
    
    

@@ -5,8 +5,7 @@ public class Reservation
    private boolean isPaid;
    private Service service;
    private Customer customer;
-   private Chauffeur chauffeur;
-   private Bus bus;
+   
    
    
     /**
@@ -15,11 +14,9 @@ public class Reservation
     * @param numOfPassengers
     * @param price
     */
-   public Reservation(int numOfPassengers, Customer customer){
+   public Reservation(int numOfPassengers){
       this.numberOfPassengers = numOfPassengers;
-	   this.customer= customer;
       isPaid = false;
-
    }
    
    
@@ -55,7 +52,7 @@ public class Reservation
    * @return the number of free seats in bus
    */
    public int getFreeSeats(){
-      return bus.getCapacity() - numberOfPassengers;
+      return service.getBus().getCapacity() - numberOfPassengers;
    }
 
 
@@ -94,38 +91,7 @@ public class Reservation
    }
    
    
-   /**
-	 * @param chauffeur to set the chauffeur
-	 */
-	public void setChauffeur(Chauffeur chauffeur) {
-		this.chauffeur = chauffeur;
-	}
-	
    
-   /**
-	 * @return the chauffeur
-	 */
-	public Chauffeur getChauffeur() {
-		return chauffeur;
-	}
-	
-	
-	/**
-	 * @param bus to set the bus
-	 */
-	public void setBus(Bus bus) {
-		this.bus = bus;
-	}
-	
-
-	/**
-	 * @return the bus
-	 */
-	public Bus getBus() {
-		return bus;
-	}
-
-
 	/**
 	 * @param service the service to set
 	 */

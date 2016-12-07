@@ -1,15 +1,24 @@
 import java.util.ArrayList;
 
-
 public class ReservationList
 {
    private ArrayList<Reservation> reservations;
+   
    
    /**
     * the constructor initializes an ArrayList of reservations
     */
    public ReservationList(){
       this.reservations = new ArrayList<Reservation>();
+   }
+   
+   
+   /**
+    * 
+    * @return a list with all reservations
+    */
+   public ArrayList<Reservation> getAllReservations(){
+	   return reservations;
    }
    
    
@@ -23,7 +32,7 @@ public class ReservationList
    
    
    /**
-    * removes a reservation from the ArrayList
+    * remove a reservation from the ArrayList
     * @param reservation
     */
    public void removeReservation(Reservation reservation){
@@ -31,12 +40,34 @@ public class ReservationList
    }
    
    
+   public ArrayList<Reservation> getOverlappingReservations(DateInterval date){
+	   ArrayList<Reservation> overlappingReservations = new ArrayList<Reservation>();
+	   for (int i = 0; i < reservations.size(); i++) {
+		if (reservations.get(i).getService().getDateInterval().checkOverlap(date)) {
+			overlappingReservations.add(reservations.get(i));
+		}
+	}
+	   return overlappingReservations;
+   }
+   
+   
+   public ArrayList<Reservation> getNotOverlappingReservations(DateInterval date){
+	   ArrayList<Reservation> notOverlappingReservations = new ArrayList<Reservation>();
+	   for (int i = 0; i < reservations.size(); i++) {
+		if (!reservations.get(i).getService().getDateInterval().checkOverlap(date)) {
+			notOverlappingReservations.add(reservations.get(i));
+		}
+	}
+	   return notOverlappingReservations;
+   }
+   
+   
    /**
     * @param customerName
     * @return
     */
-   public ArrayList<Reservations> getReservation(String customerName){
-      ArrayList<Reservations> customerReservations = new ArrayList<Reservation>();
+   public ArrayList<Reservation> getReservation(String customerName){
+      ArrayList<Reservation> customerReservations = new ArrayList<Reservation>();
       for(int i = 0; i < reservations.size(); i++){
          if(reservations.get(i).getCustomer().getName().equals(customerName)){
             customerReservations.add(reservations.get(i));
@@ -84,5 +115,4 @@ public class ReservationList
       }
       return text;
       }
-   
 }

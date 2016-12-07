@@ -5,7 +5,7 @@ public class Chauffeur
    private int id;
    private String phoneNumber;
    private String address;
-   private String wishes;
+   private String[] wishes;
    private String email;
    
     /**
@@ -22,7 +22,6 @@ public class Chauffeur
       this.id = id;
       this.address = address;
       this.phoneNumber = phoneNumber;
-      this.wishes = wishes;
       this.email = email;
    }
    
@@ -106,14 +105,14 @@ public class Chauffeur
     */
    public void setWishes(String wishes)
    {
-      this.wishes = wishes;
+	  this.wishes = wishes.split(";");
    }
 
 
    /**
     * @return the wishes
     */
-   public String getWishes()
+   public String[] getWishes()
    {
       return wishes;
    }
@@ -135,7 +134,7 @@ public class Chauffeur
    {
       return email;
    }
-
+   
 
    /**
     * @return a String with information about the chauffeur

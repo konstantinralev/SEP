@@ -4,7 +4,6 @@ public class Bus
    private int capacity;
    private int id;
    private String type;
-   private Reservation reservation;
    
    
    /**

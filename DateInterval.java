@@ -59,9 +59,18 @@ public class DateInterval
     * @return if two dates are overlapping
     */
    public boolean checkOverlap(DateInterval other){
-      return (this.departureDate.before(other.departureDate)&&this.arrivalDate.after(other.departureDate)) ||
-            (other.departureDate.before(this.departureDate)&&other.arrivalDate.after(this.departureDate));
-      }
+      return (this.departureDate.before(other.arrivalDate)&&this.arrivalDate.after(other.departureDate));
+   }
+   
+   
+   /**
+    * @return the duration of a service in days
+    */
+   public int durationOfService(){
+	   int duration = (int)((arrivalDate.getTime() - departureDate.getTime()) 
+               / (1000 * 60 * 60 * 24));
+	   return duration;
+   }
    
    
    /**

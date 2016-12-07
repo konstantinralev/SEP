@@ -1,24 +1,34 @@
-package sep;
-
 import java.util.ArrayList;
-public class BusAndChauffeur
+import java.util.Arrays;
+import java.util.Date;
+
+public class BusAndChauffeur extends Service
 { 
-   public BusAndChauffeur(){
-      
-   }
-   
-   public void setExtraServices (String services){
-      
-   }
-   
-   public ArrayList<String> getExtraServices{
-    ArrayList<String> extra = new ArrayList<>();
-
-   }
-   
-   public String toString(){
-      return null;
-      
-   }
-
+	private String[] extraServices;
+	
+	/**
+	 * 
+	 * @param placeOfDeparture
+	 * @param placeOfArrival
+	 * @param departureDate
+	 * @param arrivalDate
+	 * the constructor sets the super class' fields and initializes an arrayList of strings which represent 
+	 * the extra services that the customer has asked for
+	 */
+	public BusAndChauffeur(String placeOfDeparture, String placeOfArrival, Date departureDate, Date arrivalDate) {
+		super(placeOfDeparture, placeOfArrival, departureDate, arrivalDate);
+	} 
+	
+	public void setExtraServices(String extraServices){
+		String[] str = extraServices.split(";");
+	}
+	
+	public String[] getExtraServices(){
+		return extraServices;
+	}
+	
+	@Override
+	public String toString(){
+		return super.toString() + "\nExtra services: " + extraServices.toString(); 
+	}
 }

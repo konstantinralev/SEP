@@ -31,7 +31,7 @@ public class Company
 	   ArrayList<Bus> suggestedBuses = new ArrayList<Bus>();
 	      for(int i =0;i<reservations.getNotOverlappingReservations(dateInterval).size();i++){
 	         if(reservations.getNotOverlappingReservations(dateInterval).get(i).getFreeSeats() > numberOfPassengers){
-	            suggestedBuses.add(reservations.getAllReservations().get(i).getBus());
+	            suggestedBuses.add(reservations.getNotOverlappingReservations(dateInterval).get(i).getService().getBus());
 	         }
 	      }
 	      return suggestedBuses;
@@ -53,7 +53,7 @@ public class Company
    public ArrayList<Chauffeur> suggestChauffeurs(DateInterval date){
 	   ArrayList<Chauffeur> availableChauffeurs = new ArrayList<Chauffeur>();
 	   for (int i = 0; i < reservations.getNotOverlappingReservations(date).size(); i++) {
-		   availableChauffeurs.add(reservations.getNotOverlappingReservations(date).get(i).getChauffeur());
+		   availableChauffeurs.add(reservations.getNotOverlappingReservations(date).get(i).getService().getChauffeur());
 	   }
 	   return availableChauffeurs;
    }
@@ -66,7 +66,7 @@ public class Company
     */
    public boolean isChauffeurAvailable(DateInterval date, Chauffeur chauffeur){
 	   for (int i = 0; i < reservations.getOverlappingReservations(date).size(); i++) {
-		if(reservations.getOverlappingReservations(date).get(i).getChauffeur().equals(chauffeur)){
+		if(reservations.getOverlappingReservations(date).get(i).getService().getChauffeur().equals(chauffeur)){
 			return false;
 		}
 	}
