@@ -12,22 +12,7 @@ public class BusList
       this.buses = new ArrayList<Bus>();
    }
    
-   
-   /**
-    * @param dateInterval
-    * @returna list of available buses depending on a certain dateInterval
-    */
-   public ArrayList<Bus> getAvailableBuses(DateInterval dateInterval){
-      ArrayList<Bus> availableBuses = new ArrayList<Bus>();
-      for(int i =0;i<buses.size();i++){
-         if(buses.get(i).isAvailable(dateInterval)){
-            availableBuses.add(buses.get(i));
-         }
-      }
-      return availableBuses;
-    }
-   
-   
+
    /**
     * @param type
     * @return a list of appropriate buses depending on the bus type
@@ -36,6 +21,21 @@ public class BusList
       ArrayList<Bus> appropriateBuses = new ArrayList<Bus>();
       for(int i =0;i<buses.size();i++){
          if(buses.get(i).getType().equals(type)){
+            appropriateBuses.add(buses.get(i));
+         }
+      }
+      return appropriateBuses;
+   }
+   
+   
+   /**
+    * @param number of passengers
+    * @return a list of appropriate buses depending on the available seats
+    */
+   public ArrayList<Bus> getAppropriateBuses(int numberOfPassengers){
+      ArrayList<Bus> appropriateBuses = new ArrayList<Bus>();
+      for(int i =0;i<buses.size();i++){
+         if(buses.get(i).getCapacity() > numberOfPassengers){
             appropriateBuses.add(buses.get(i));
          }
       }
