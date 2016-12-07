@@ -12,6 +12,20 @@ public class ChauffeurList
    }
    
    
+   public void addChauffeur(Chauffeur chauffeur){
+	   chauffeurs.add(chauffeur);
+   }
+   
+   
+   public void removeChauffeur(int id){
+	   for (int i = 0; i < chauffeurs.size(); i++) {
+		   if (chauffeurs.get(i).getId() == id) {
+			   chauffeurs.remove(i);
+		}
+	}
+   }
+   
+   
    /**
     * look for a chauffeur by id
     * @param id
