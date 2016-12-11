@@ -21,6 +21,13 @@ public class GUI extends JFrame {
 	private BusList buses = new BusList();
 	private JPanel contentPane = new JPanel();;
 	CardLayout cl = new CardLayout();
+	private ChauffeurList chauffeurs = new ChauffeurList();
+  	private DefaultListModel<Chauffeur> chauffeurListModel = new DefaultListModel<Chauffeur>();
+  	private JList<Chauffeur> chauffeurJList = new JList<Chauffeur>(chauffeurListModel);
+
+	 private ServiceList services = new ServiceList();
+	 private DefaultListModel<Service> serviceListModel = new DefaultListModel<Service>();
+	 private JList<Service> tripsAndTravelsList = new JList<Service>(serviceListModel);
 
 	
 	/**
@@ -366,6 +373,23 @@ public class GUI extends JFrame {
 				cl.show(contentPane, "changeRemoveChauffeur");    
 			}
 		});
+		addChauffeurButton.addActionListener(new ActionListener(){
+         
+        	     public void actionPerformed(ActionEvent e){
+	            try{
+
+		       Chauffeur chauffeur = new Chauffeur(nameText.getText(), Integer.parseInt(iDText.getText()),
+					    addressText.getText(), wishesText.getText(), emailText.getText(), 
+					    phoneText.getText());
+		       chauffeurs.addChauffeur(chauffeur);
+		       chauffeurListModel.addElement(chauffeur);
+               
+		    } catch(Exception e3){
+		       JOptionPane.showMessageDialog(addChauffeur,"Invalid values","Please enter valid arguments",JOptionPane.ERROR_MESSAGE);
+
+		    }
+		 }
+	      });
 		JButton updateChauffeurInfo = new JButton("Update chauffeur's data");
 		JButton cancelButton2 = new JButton("Cancel");
 		cancelButton2.addActionListener(goHome);
@@ -419,6 +443,18 @@ public class GUI extends JFrame {
 				cl.show(contentPane, "addChauffeur");
 			}
 		});
+		
+		chauffeurJList.addListSelectionListener(new ListSelectionListener()
+	      {
+
+		 @Override
+		 public void valueChanged(ListSelectionEvent arg0)
+		 {
+		    String selected = chauffeurJList.getSelectedValue().getChauffeurInfo();
+		    insideEastPanel.setText(selected);
+		 }
+	      });
+      
 		JButton removeChauffeur = new JButton("Remove chauffeur");
 		removeChauffeur.addActionListener(new ActionListener() {
 			@Override
@@ -546,6 +582,8 @@ public class GUI extends JFrame {
 				cl.show(contentPane, "addBus");
 			}
 		});
+
+              
 		JButton removeBus = new JButton("Remove bus");
 		removeBus.addActionListener(new ActionListener() {
 			@Override
@@ -626,6 +664,23 @@ public class GUI extends JFrame {
 				cl.show(contentPane, "changeTripOrTravel");
 			}
 		});
+		
+		 saveTripOrTravel.addActionListener(new ActionListener(){
+         
+		 public void actionPerformed(ActionEvent e){
+		    try{
+
+		       Service service = new Service(new Route(fromField2.getText(),toField2.getText()), new DateInterval(Integer.parseInt(depDate2.getText())),
+			     new DateInterval(Integer.parseInt(arrDate2.getText())), String.valueOf(buttons.getSelection()));
+		       services.addService(service);
+		       serviceListModel.addElement(service);
+
+		    } catch(Exception e3){
+		       JOptionPane.showMessageDialog(addChauffeur,"Invalid values","Please enter valid arguments",JOptionPane.ERROR_MESSAGE);
+
+		    }
+		 }
+	      });
 		JButton updateTripOrTravel = new JButton("Update trip/travel");
 		JButton cancel1 = new JButton("Cancel");
 		cancel1.addActionListener(goHome);
@@ -719,6 +774,19 @@ public class GUI extends JFrame {
 				cl.show(contentPane, "addTripOrTravel");
 			}
 		});
+		
+		      
+	      tripsAndTravelsList.addListSelectionListener(new ListSelectionListener()
+	      {
+
+		 @Override
+		 public void valueChanged(ListSelectionEvent arg0)
+		 {
+		    String selected = tripsAndTravelsList.getSelectedValue().getServiceInfo();
+		    insideEastPanel.setText(selected);
+		 }
+	      });
+      
 		JButton removeServiceButton = new JButton("Remove trip/travel");
 		removeServiceButton.addActionListener(new ActionListener() {
 			@Override
@@ -728,6 +796,8 @@ public class GUI extends JFrame {
 				cl.show(contentPane, "home");
 			}
 		});
+		
+		
 		JButton cancelButton5 = new JButton("Cancel");
 		cancelButton5.addActionListener(goHome);		
 		changeTripTravelNorth.add(serviceDestinationLabel);
