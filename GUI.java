@@ -393,7 +393,7 @@ public class GUI extends JFrame {
 					  }
 
 				    } catch(Exception e4){
-					  JOptionPane.showMessageDialog(addChauffeur,"Please enter valid arguments");
+			      		 JOptionPane.showMessageDialog(addBus,"Please enter valid arguments","Invalid values",JOptionPane.ERROR_MESSAGE);
 
 				    }
 			    nameText.setText("");
@@ -532,7 +532,7 @@ public class GUI extends JFrame {
 						busListModel.addElement(bus);
 					}
 				} catch (Exception e2) {
-					JOptionPane.showMessageDialog(addBus, "Please enter valid arguments");
+			      		 JOptionPane.showMessageDialog(addBus,"Please enter valid arguments","Invalid values",JOptionPane.ERROR_MESSAGE);
 				}
 				capacityField.setText("");
 				plateNumberField.setText("");
@@ -703,7 +703,7 @@ public class GUI extends JFrame {
 			    }
 
 			    } catch(Exception e3){
-			       JOptionPane.showMessageDialog(addChauffeur,"Invalid values","Please enter valid arguments",JOptionPane.ERROR_MESSAGE);
+			       JOptionPane.showMessageDialog(addTripOrTravel,"Invalid values","Please enter valid arguments",JOptionPane.ERROR_MESSAGE);
 
 			    }
 			 }
