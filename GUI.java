@@ -374,22 +374,36 @@ public class GUI extends JFrame {
 			}
 		});
 		addChauffeurButton.addActionListener(new ActionListener(){
-         
-        	     public void actionPerformed(ActionEvent e){
-	            try{
-
-		       Chauffeur chauffeur = new Chauffeur(nameText.getText(), Integer.parseInt(iDText.getText()),
-					    addressText.getText(), wishesText.getText(), emailText.getText(), 
-					    phoneText.getText());
-		       chauffeurs.addChauffeur(chauffeur);
-		       chauffeurListModel.addElement(chauffeur);
+			public void actionPerformed(ActionEvent e){
+            			try{
                
-		    } catch(Exception e3){
-		       JOptionPane.showMessageDialog(addChauffeur,"Invalid values","Please enter valid arguments",JOptionPane.ERROR_MESSAGE);
+				       if(nameText.getText().equals("") || iDText.getText().equals ("") || 
+					  addressText.getText().equals("") || 
+					  wishesText.getText().equals("") || 
+					  emailText.getText().equals("") || 
+					  phoneText.getText().equals("")){
+					     JOptionPane.showMessageDialog(addChauffeur, "Please fill in all of the fields");
 
-		    }
-		 }
-	      });
+					  }else{
+					     Chauffeur chauffeur = new Chauffeur(nameText.getText(), Integer.parseInt(iDText.getText()),
+                                                   	 addressText.getText(), wishesText.getText(), emailText.getText(), 
+                                                    	phoneText.getText());
+					     chauffeurs.addChauffeur(chauffeur);
+					     chauffeurListModel.addElement(chauffeur);
+					  }
+
+				    } catch(Exception e4){
+					  JOptionPane.showMessageDialog(addChauffeur,"Please enter valid arguments");
+
+				    }
+			    nameText.setText("");
+			    addressText.setText("");
+			    iDText.setText("");
+			    wishesText.setText("");
+			    emailText.setText("");
+			    phoneText.setText("");
+        	 	}
+		});        
 		JButton updateChauffeurInfo = new JButton("Update chauffeur's data");
 		JButton cancelButton2 = new JButton("Cancel");
 		cancelButton2.addActionListener(goHome);
@@ -497,10 +511,12 @@ public class GUI extends JFrame {
 		busTypeComboBox.setSelectedIndex(0);
 		JPanel addBusSouth = new JPanel(new GridLayout(1, 0));
 		JButton addBusButton = new JButton("Add bus");
+	
 		addBusButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
+					
 					if(String.valueOf(busTypeComboBox.getSelectedItem()).equals("") || 
 							capacityField.getText().equals("") || 
 							plateNumberField.getText().equals("")){
@@ -508,9 +524,10 @@ public class GUI extends JFrame {
 					}
 					else{
 						Bus bus = new Bus(
-								Integer.parseInt(capacityField.getText()),
+							        Integer.parseInt(capacityField.getText()),
 								Integer.parseInt(plateNumberField.getText()),
 								String.valueOf(busTypeComboBox.getSelectedItem()));
+					
 						buses.addBus(bus);
 						busListModel.addElement(bus);
 					}
@@ -667,20 +684,30 @@ public class GUI extends JFrame {
 		
 		 saveTripOrTravel.addActionListener(new ActionListener(){
          
-		 public void actionPerformed(ActionEvent e){
-		    try{
+		    public void actionPerformed(ActionEvent e){
+			    try{
+			    if(String.valueOf(fromField2.getText().equals("") || toField2.getText().equals("")|| 
+				  depDate2.getText().equals("") || 
+				  arrDate2.getText().equals("") || 
+				  arrTime2.getText().equals("") || 
+				  depTime2.getText().equals(""))){
+			       JOptionPane.showMessageDialog(addTripOrTravel, "Please fill in all of the fields");
+			    }
+			    else{
+			       Service service = new Service(new Route(fromField2.getText(),toField2.getText()),
+				     new DateInterval(Integer.parseInt(depDate2.getText())), 
+				     new DateInterval(Integer.parseInt(arrDate2.getText())),
+				     String.valueOf(buttons.getSelection()));
+			       services.addService(service);
+			       serviceListModel.addElement(service);
+			    }
 
-		       Service service = new Service(new Route(fromField2.getText(),toField2.getText()), new DateInterval(Integer.parseInt(depDate2.getText())),
-			     new DateInterval(Integer.parseInt(arrDate2.getText())), String.valueOf(buttons.getSelection()));
-		       services.addService(service);
-		       serviceListModel.addElement(service);
+			    } catch(Exception e3){
+			       JOptionPane.showMessageDialog(addChauffeur,"Invalid values","Please enter valid arguments",JOptionPane.ERROR_MESSAGE);
 
-		    } catch(Exception e3){
-		       JOptionPane.showMessageDialog(addChauffeur,"Invalid values","Please enter valid arguments",JOptionPane.ERROR_MESSAGE);
-
-		    }
-		 }
-	      });
+			    }
+			 }
+		      });
 		JButton updateTripOrTravel = new JButton("Update trip/travel");
 		JButton cancel1 = new JButton("Cancel");
 		cancel1.addActionListener(goHome);
