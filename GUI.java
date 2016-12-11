@@ -683,20 +683,21 @@ public class GUI extends JFrame {
 		});
 		
 		 saveTripOrTravel.addActionListener(new ActionListener(){
-         
-		    public void actionPerformed(ActionEvent e){
+
+			 public void actionPerformed(ActionEvent e){
 			    try{
-			    if(String.valueOf(fromField2.getText().equals("") || toField2.getText().equals("")|| 
-				  depDate2.getText().equals("") || 
-				  arrDate2.getText().equals("") || 
-				  arrTime2.getText().equals("") || 
-				  depTime2.getText().equals(""))){
-			       JOptionPane.showMessageDialog(addTripOrTravel, "Please fill in all of the fields");
+
+			       if(String.valueOf(fromField2.getText()).equals("") || toField2.getText().equals("")|| 
+				     //depDate2.getText().equals("") || 
+				     // arrDate2.getText().equals("") || 
+				     arrTime2.getText().equals("") || 
+				     depTime2.getText().equals("") ||  String.valueOf(buttons.getSelection()).equals(""))){
+				  JOptionPane.showMessageDialog(addTripOrTravel, "Please fill in all of the fields");
 			    }
 			    else{
-			       Service service = new Service(new Route(fromField2.getText(),toField2.getText()),
-				     new DateInterval(Integer.parseInt(depDate2.getText())), 
-				     new DateInterval(Integer.parseInt(arrDate2.getText())),
+			       Service service = new Service(fromField2.getText(),toField2.getText(),
+				     new Date(Integer.parseInt(depDate2.getText())), 
+				     new Date(Integer.parseInt(arrDate2.getText())),
 				     String.valueOf(buttons.getSelection()));
 			       services.addService(service);
 			       serviceListModel.addElement(service);
@@ -707,7 +708,8 @@ public class GUI extends JFrame {
 
 			    }
 			 }
-		      });
+	        });
+		     
 		JButton updateTripOrTravel = new JButton("Update trip/travel");
 		JButton cancel1 = new JButton("Cancel");
 		cancel1.addActionListener(goHome);
