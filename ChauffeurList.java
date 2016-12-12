@@ -11,18 +11,29 @@ public class ChauffeurList
       chauffeurs = new ArrayList<Chauffeur>();
    }
    
+   /**
+    * 
+    * @return a list with all chauffeurs
+    */
+   public ArrayList<Chauffeur> getAllChauffeurs(){
+	   return chauffeurs;
+   }
    
+   
+   /**
+    * 
+    * @param chauffeur
+    */
    public void addChauffeur(Chauffeur chauffeur){
 	   chauffeurs.add(chauffeur);
    }
    
-   
-   public void removeChauffeur(int id){
-	   for (int i = 0; i < chauffeurs.size(); i++) {
-		   if (chauffeurs.get(i).getId() == id) {
-			   chauffeurs.remove(i);
-		}
-	}
+   /**
+    * 
+    * @param id
+    */
+	public void removeChauffeur(Chauffeur chauffeur) {
+		chauffeurs.remove(chauffeur);
    }
    
    
@@ -39,6 +50,23 @@ public class ChauffeurList
          }
       }
       return null;
+   }
+   
+   
+   /**
+    * look for a chauffeur by name
+    * @param name
+    * @return chauffeurs with the matching name
+    */
+   public ArrayList<Chauffeur> getChauffeur(String name){
+      ArrayList<Chauffeur> sameName = new ArrayList<Chauffeur>();
+	   for(int i = 0; i < chauffeurs.size(); i++){
+         if (chauffeurs.get(i).getName().equals(name))
+         {
+            sameName.add(chauffeurs.get(i));
+         }
+      }
+      return sameName;
    }
    
    

@@ -12,6 +12,13 @@ public class BusList
       this.buses = new ArrayList<Bus>();
    }
    
+   /**
+    * 
+    * @return a list with all buses
+    */
+   public ArrayList<Bus> getAllBuses(){
+	   return buses;
+   }
 
    /**
     * @param type
@@ -69,12 +76,8 @@ public class BusList
     * removes a bus from the ArrayList.
     * @param 
     */
-   public void removeBus(int id){
-      for(int i = 0; i< buses.size();i++){
-         if(buses.get(i).getId() == id){
-            buses.remove(buses.get(i));
-         }
-      }
+   public void removeBus(Bus bus){
+      buses.remove(bus);
    }
    
    /**

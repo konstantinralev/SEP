@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeListener;
@@ -22,13 +21,16 @@ public class GUI extends JFrame {
 	private JPanel contentPane = new JPanel();;
 	CardLayout cl = new CardLayout();
 	private ChauffeurList chauffeurs = new ChauffeurList();
-  	private DefaultListModel<Chauffeur> chauffeurListModel = new DefaultListModel<Chauffeur>();
-  	private JList<Chauffeur> chauffeurJList = new JList<Chauffeur>(chauffeurListModel);
-
-	 private ServiceList services = new ServiceList();
-	 private DefaultListModel<Service> serviceListModel = new DefaultListModel<Service>();
-	 private JList<Service> tripsAndTravelsList = new JList<Service>(serviceListModel);
-
+	private DefaultListModel<Chauffeur> chauffeurListModel = new DefaultListModel<Chauffeur>();
+	private JList<Chauffeur> chauffeurJList = new JList<Chauffeur>(chauffeurListModel);
+	private ServiceList services = new ServiceList();
+	private DefaultListModel<Service> serviceListModel = new DefaultListModel<Service>();
+	private JList<Service> serviceJList = new JList<Service>(serviceListModel);
+	private CustomerList customers = new CustomerList();
+	private ReservationList reservations = new ReservationList();
+	private DefaultListModel<Reservation> reservationListModel = new DefaultListModel<Reservation>();
+	private JList<Reservation> reservationJList = new JList<Reservation>(reservationListModel);
+	private Company company = new Company(customers, reservations,buses, chauffeurs, services);
 	
 	/**
 	 * Create the frame.
@@ -37,7 +39,7 @@ public class GUI extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane.setLayout(cl);
 		setTitle("VIA Bus");
-		
+
 		/**
 		 * clicking on the cancel button should take the user to the home page
 		 */
@@ -47,19 +49,18 @@ public class GUI extends JFrame {
 				cl.show(contentPane, "home");
 			}
 		};
-		
-		
+
 		/**
 		 * create home panel
 		 */
 		JPanel homePanel = homePanel();
 
-		
 		/**
 		 * create the reservation panel
 		 */
 		JPanel makeReservation = new JPanel(new BorderLayout());
-		TitledBorder reservationTitle = new TitledBorder("Make a new reservation");
+		TitledBorder reservationTitle = new TitledBorder(
+				"Make a new reservation");
 		makeReservation.setBorder(reservationTitle);
 		JPanel general = new JPanel(cl);
 		JRadioButton bac = new JRadioButton("Bus-and-chauffeur");
@@ -102,10 +103,10 @@ public class GUI extends JFrame {
 		JButton cancel = new JButton("Cancel");
 		cancel.addActionListener(goHome);
 		JButton buttonBack = new JButton("Back");
-		buttonBack.addActionListener(new ActionListener() {	
+		buttonBack.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cl.show(contentPane, "changeOrRemoveReservation");				
+				cl.show(contentPane, "changeOrRemoveReservation");
 			}
 		});
 		buttonGroup.add(tripButton);
@@ -115,8 +116,7 @@ public class GUI extends JFrame {
 		reservationButtonsSouth.add(buttonNext);
 		reservationButtonsSouth.add(cancel);
 		/**
-		 * panel for making a reservation for trips or travels 
-		 * 1
+		 * panel for making a reservation for trips or travels 1
 		 */
 		JPanel tripOrTravel = new JPanel();
 		general.add(tripOrTravel, "1");
@@ -131,24 +131,25 @@ public class GUI extends JFrame {
 		JLabel labelNumberOfPassengers = new JLabel("Number of passengers: ");
 		JTextField numberOfPassengersField = new JTextField();
 		numberOfPassengersField.setColumns(5);
-		JButton checkButtonTrip = new JButton("Check for available trips/travels");		
+		JButton checkButtonTrip = new JButton(
+				"Check for available trips/travels");
 		panelNorth.add(labelDepDate);
 		panelNorth.add(depDate3);
 		panelNorth.add(labelNumberOfPassengers);
 		panelNorth.add(numberOfPassengersField);
 		panelNorth.add(checkButtonTrip);
-		tripOrTravel.add(centerList,BorderLayout.CENTER);
+		tripOrTravel.add(centerList, BorderLayout.CENTER);
 		tripOrTravel.add(panelNorth, BorderLayout.NORTH);
 		/**
-		 * panel for adding a bus and chauffeur service 
-		 * 2
+		 * panel for adding a bus and chauffeur service 2
 		 */
 		JPanel busAndChauffeur = new JPanel();
 		general.add(busAndChauffeur, "2");
-		busAndChauffeur.setLayout(new BorderLayout(0, 0));		
+		busAndChauffeur.setLayout(new BorderLayout(0, 0));
 		JPanel panelCenterBAC = new JPanel();
 		panelCenterBAC.setBorder(new EmptyBorder(5, 5, 5, 5));
-		panelCenterBAC.setLayout(new BoxLayout(panelCenterBAC, BoxLayout.Y_AXIS));
+		panelCenterBAC
+				.setLayout(new BoxLayout(panelCenterBAC, BoxLayout.Y_AXIS));
 		JLabel labelDepDateBAC = new JLabel("Departure date:");
 		UtilDateModel model4 = new UtilDateModel();
 		JDatePanelImpl datePanel4 = new JDatePanelImpl(model4);
@@ -162,12 +163,20 @@ public class GUI extends JFrame {
 		destinationField.setColumns(10);
 		JLabel labelType = new JLabel("Preferred type of vehicle: ");
 		JComboBox preferredBusTypeComboBox = new JComboBox();
-		preferredBusTypeComboBox.setModel(new DefaultComboBoxModel(new String[] {"", "Mini bus", "Luxury bus", "Party bus" }));
+		preferredBusTypeComboBox.setModel(new DefaultComboBoxModel(
+				new String[] { "", "Mini bus", "Luxury bus", "Party bus" }));
 		preferredBusTypeComboBox.setSelectedIndex(0);
 		JLabel labelExtraServices = new JLabel("Extra services: ");
 		JTextField extraServicesField = new JTextField();
-		extraServicesField.setText("Please, separate the extra services with a \";\"");
+		extraServicesField
+				.setText("Please, separate the extra services with a \";\"");
 		extraServicesField.setColumns(10);
+		extraServicesField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				extraServicesField.setText("");
+			}
+		});
 		JLabel labelNumberOfPassengersBAC = new JLabel("Number of passengers: ");
 		JTextField numberOfPassengersBAC = new JTextField();
 		numberOfPassengersBAC.setColumns(5);
@@ -175,27 +184,33 @@ public class GUI extends JFrame {
 		panelWestBAC.setBorder(new TitledBorder("Chauffeur"));
 		panelWestBAC.setLayout(new BorderLayout(0, 0));
 		JList listOfAvailableChauffeurs = new JList();
-		JScrollPane scrollListOfAvailableChauffeurs = new JScrollPane(listOfAvailableChauffeurs);
+		JScrollPane scrollListOfAvailableChauffeurs = new JScrollPane(
+				listOfAvailableChauffeurs);
 		JTextArea insideAvailableChauffeurPanel = new JTextArea();
 		insideAvailableChauffeurPanel.setEditable(false);
 		insideAvailableChauffeurPanel.setLineWrap(true);
 		insideAvailableChauffeurPanel.setColumns(20);
 		insideAvailableChauffeurPanel.setRows(6);
-		insideAvailableChauffeurPanel.setBorder(new TitledBorder("Chauffeur's information"));
-		JButton checkForAvailableChauffeurs = new JButton("Check for available chauffeurs");		
+		insideAvailableChauffeurPanel.setBorder(new TitledBorder(
+				"Chauffeur's information"));
+		JButton checkForAvailableChauffeurs = new JButton(
+				"Check for available chauffeurs");
 		JPanel panelEastBAC = new JPanel();
 		panelEastBAC.setBorder(new TitledBorder("Bus"));
 		panelEastBAC.setLayout(new BorderLayout(0, 0));
 		JList listOfAvailableBuses = new JList();
-		JScrollPane scrollListOfAvailableBuses = new JScrollPane(listOfAvailableBuses);
+		JScrollPane scrollListOfAvailableBuses = new JScrollPane(
+				listOfAvailableBuses);
 		JTextArea insideAvailableBusesPanel = new JTextArea();
 		insideAvailableBusesPanel.setEditable(false);
 		insideAvailableBusesPanel.setLineWrap(true);
 		insideAvailableBusesPanel.setColumns(20);
 		insideAvailableBusesPanel.setRows(6);
-		insideAvailableBusesPanel.setBorder(new TitledBorder("Bus' information"));
+		insideAvailableBusesPanel
+				.setBorder(new TitledBorder("Bus' information"));
 		listOfAvailableBuses.setVisibleRowCount(10);
-		JButton checkForAvailableBuses = new JButton("Check for available buses");
+		JButton checkForAvailableBuses = new JButton(
+				"Check for available buses");
 		panelCenterBAC.add(labelDepDateBAC);
 		panelCenterBAC.add(depDate4);
 		panelCenterBAC.add(labelArrivalDate);
@@ -208,10 +223,10 @@ public class GUI extends JFrame {
 		panelCenterBAC.add(numberOfPassengersBAC);
 		panelCenterBAC.add(labelExtraServices);
 		panelCenterBAC.add(extraServicesField);
-		panelWestBAC.add(scrollListOfAvailableChauffeurs,BorderLayout.CENTER);
-		panelWestBAC.add(insideAvailableChauffeurPanel,BorderLayout.NORTH);
+		panelWestBAC.add(scrollListOfAvailableChauffeurs, BorderLayout.CENTER);
+		panelWestBAC.add(insideAvailableChauffeurPanel, BorderLayout.NORTH);
 		panelWestBAC.add(checkForAvailableChauffeurs, BorderLayout.SOUTH);
-		panelEastBAC.add(scrollListOfAvailableBuses,BorderLayout.CENTER);
+		panelEastBAC.add(scrollListOfAvailableBuses, BorderLayout.CENTER);
 		panelEastBAC.add(insideAvailableBusesPanel, BorderLayout.NORTH);
 		panelEastBAC.add(checkForAvailableBuses, BorderLayout.SOUTH);
 		busAndChauffeur.add(panelCenterBAC, BorderLayout.CENTER);
@@ -221,21 +236,23 @@ public class GUI extends JFrame {
 		makeReservation.add(buttonGroup, BorderLayout.NORTH);
 		makeReservation.add(general, BorderLayout.CENTER);
 		makeReservation.add(reservationButtonsSouth, BorderLayout.SOUTH);
-		
-		
+
 		/**
 		 * create panel for continue making a reservation
 		 */
 		JPanel makeReservationNext = new JPanel(new BorderLayout());
-		makeReservationNext.setBorder(new EmptyBorder(5,5,5,5));		
+		makeReservationNext.setBorder(new EmptyBorder(5, 5, 5, 5));
 		JPanel makeReservationNextNorth = new JPanel();
-		makeReservationNextNorth.setLayout(new BoxLayout(makeReservationNextNorth, BoxLayout.X_AXIS));
-		makeReservationNextNorth.setBorder(new TitledBorder("Reservation information"));
+		makeReservationNextNorth.setLayout(new BoxLayout(
+				makeReservationNextNorth, BoxLayout.X_AXIS));
+		makeReservationNextNorth.setBorder(new TitledBorder(
+				"Reservation information"));
 		JLabel priceLabel = new JLabel("Price: ");
 		JTextField priceField = new JTextField(10);
 		JCheckBox paid = new JCheckBox("Paid");
 		JPanel makeReservationNextCenter = new JPanel(new GridLayout(0, 1));
-		makeReservationNextCenter.setBorder(new TitledBorder("Customer's Information"));
+		makeReservationNextCenter.setBorder(new TitledBorder(
+				"Customer's Information"));
 		JLabel labelNameCustomer = new JLabel("Name: ");
 		JTextField customerNameField = new JTextField("");
 		JLabel customerAddressLabel = new JLabel("Address:");
@@ -248,13 +265,16 @@ public class GUI extends JFrame {
 		UtilDateModel model7 = new UtilDateModel();
 		JDatePanelImpl datePanel7 = new JDatePanelImpl(model7);
 		JDatePickerImpl birthDate7 = new JDatePickerImpl(datePanel7);
-		birthDate7.setToolTipText("Only available if the selected type of service is trip/travel");
-		JRadioButton newsletterYes = new JRadioButton("The customer wants to recieve a newsletter");
+		birthDate7
+				.setToolTipText("Only available if the selected type of service is trip/travel");
+		JRadioButton newsletterYes = new JRadioButton(
+				"The customer wants to recieve a newsletter");
 		newsletterYes.setSelected(false);
-		JRadioButton newsletterNo = new JRadioButton("The customer does not want to recieve newsletter");
+		JRadioButton newsletterNo = new JRadioButton(
+				"The customer does not want to recieve newsletter");
 		newsletterNo.setSelected(false);
 		ButtonGroup newsletterButtons = new ButtonGroup();
-		newsletterButtons.add(newsletterYes);		
+		newsletterButtons.add(newsletterYes);
 		JPanel makeReservationNextSouth = new JPanel(new GridLayout(1, 0));
 		JButton saveReservationButton = new JButton("Save reservation");
 		JButton updateReservation = new JButton("Update reservation");
@@ -288,23 +308,26 @@ public class GUI extends JFrame {
 		makeReservationNext.add(makeReservationNextNorth, BorderLayout.NORTH);
 		makeReservationNext.add(makeReservationNextCenter, BorderLayout.CENTER);
 		makeReservationNext.add(makeReservationNextSouth, BorderLayout.SOUTH);
-		
-		
+
 		/**
 		 * create panel for changing and removing reservations
 		 */
 		JPanel changeRemoveReservation = new JPanel(new BorderLayout());
-		changeRemoveReservation.setBorder(new TitledBorder("Change/Remove reservation"));
+		changeRemoveReservation.setBorder(new TitledBorder(
+				"Change/Remove reservation"));
 		JPanel panelChangeRemoveReservationNorth = new JPanel();
-		panelChangeRemoveReservationNorth.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panelChangeRemoveReservationNorth.setLayout(new FlowLayout(
+				FlowLayout.CENTER, 5, 5));
 		JLabel labelNameSearch = new JLabel("Customer name:  ");
 		JTextField customerNameSearchField = new JTextField(20);
 		JButton findCustomerButton = new JButton("Search by customer name");
 		JList reservationListChangeRemove = new JList();
-		JScrollPane scrollReservations = new JScrollPane(reservationListChangeRemove);		
+		JScrollPane scrollReservations = new JScrollPane(
+				reservationListChangeRemove);
 		JPanel panelChangeRemoveReservationEast = new JPanel();
 		panelChangeRemoveReservationEast.setLayout(new BorderLayout());
-		panelChangeRemoveReservationEast.setBorder(new TitledBorder("Reservation's information"));
+		panelChangeRemoveReservationEast.setBorder(new TitledBorder(
+				"Reservation's information"));
 		JTextArea insideEastReservationPanel = new JTextArea();
 		insideEastReservationPanel.setEditable(false);
 		insideEastReservationPanel.setLineWrap(true);
@@ -325,14 +348,16 @@ public class GUI extends JFrame {
 		removeReservation.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//remove chauffeur method
-				JOptionPane.showMessageDialog(contentPane, "Reservation removed from the system");
+				// remove chauffeur method
+				JOptionPane.showMessageDialog(contentPane,
+						"Reservation removed from the system");
 				cl.show(contentPane, "home");
 			}
 		});
 		JButton cancelButton7 = new JButton("Cancel");
 		cancelButton7.addActionListener(goHome);
-		panelChangeRemoveReservationEast.add(insideEastReservationPanel,BorderLayout.CENTER);
+		panelChangeRemoveReservationEast.add(insideEastReservationPanel,
+				BorderLayout.CENTER);
 		panelChangeRemoveReservationNorth.add(labelNameSearch);
 		panelChangeRemoveReservationNorth.add(customerNameSearchField);
 		panelChangeRemoveReservationNorth.add(findCustomerButton);
@@ -340,11 +365,13 @@ public class GUI extends JFrame {
 		panelChangeRemoveReservationSouth.add(removeReservation);
 		panelChangeRemoveReservationSouth.add(cancelButton7);
 		changeRemoveReservation.add(scrollReservations, BorderLayout.CENTER);
-		changeRemoveReservation.add(panelChangeRemoveReservationNorth,BorderLayout.NORTH);
-		changeRemoveReservation.add(panelChangeRemoveReservationSouth,BorderLayout.SOUTH);
-		changeRemoveReservation.add(panelChangeRemoveReservationEast,BorderLayout.EAST);
-		
-		
+		changeRemoveReservation.add(panelChangeRemoveReservationNorth,
+				BorderLayout.NORTH);
+		changeRemoveReservation.add(panelChangeRemoveReservationSouth,
+				BorderLayout.SOUTH);
+		changeRemoveReservation.add(panelChangeRemoveReservationEast,
+				BorderLayout.EAST);
+
 		/**
 		 * add a chauffeur to the system
 		 */
@@ -363,48 +390,105 @@ public class GUI extends JFrame {
 		JLabel emailLabel = new JLabel("E-mail: ");
 		JTextField emailText = new JTextField("");
 		JLabel wishesLabel = new JLabel("Wishes:");
-		JTextField wishesText = new JTextField("(please, separate the chauffeurs wishes with a \";\")");
-		JPanel addChauffeurSouth = new JPanel(new GridLayout(1, 0));
-		JButton addChauffeurButton = new JButton("Add chauffeur");
-		JButton backChauffeur = new JButton("Back");
-		backChauffeur.addActionListener(new ActionListener() {	
+		JTextField wishesText = new JTextField(
+				"(please, separate the chauffeurs wishes with a \";\")");
+		wishesText.addFocusListener(new FocusAdapter() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				cl.show(contentPane, "changeRemoveChauffeur");    
+			public void focusGained(FocusEvent e) {
+				wishesText.setText("");
 			}
 		});
-		addChauffeurButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-            			try{
-               
-				       if(nameText.getText().equals("") || iDText.getText().equals ("") || 
-					  addressText.getText().equals("") || 
-					  wishesText.getText().equals("") || 
-					  emailText.getText().equals("") || 
-					  phoneText.getText().equals("")){
-					     JOptionPane.showMessageDialog(addChauffeur, "Please fill in all of the fields");
-
-					  }else{
-					     Chauffeur chauffeur = new Chauffeur(nameText.getText(), Integer.parseInt(iDText.getText()),
-                                                   	 addressText.getText(), wishesText.getText(), emailText.getText(), 
-                                                    	phoneText.getText());
-					     chauffeurs.addChauffeur(chauffeur);
-					     chauffeurListModel.addElement(chauffeur);
-					  }
-
-				    } catch(Exception e4){
-			      		 JOptionPane.showMessageDialog(addBus,"Please enter valid arguments","Invalid values",JOptionPane.ERROR_MESSAGE);
-
-				    }
-			    nameText.setText("");
-			    addressText.setText("");
-			    iDText.setText("");
-			    wishesText.setText("");
-			    emailText.setText("");
-			    phoneText.setText("");
-        	 	}
-		});        
+		JPanel addChauffeurSouth = new JPanel(new GridLayout(1, 0));
+		JButton addChauffeurButton = new JButton("Add chauffeur");
+		addChauffeurButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					if (nameText.getText().equals("")
+							|| addressText.getText().equals("")
+							|| emailText.getText().equals("")
+							|| phoneText.getText().equals("")){
+						JOptionPane.showMessageDialog(addChauffeur,"Please fill in all of the fields");
+					} else {
+						boolean uniqueId=true;
+						for (int i = 0; i < chauffeurs.getAllChauffeurs().size(); i++) {
+							if(chauffeurs.getAllChauffeurs().get(i).getId()==Integer.parseInt(iDText.getText()) &&
+									String.valueOf(iDText.getText()).length()!=5){
+								uniqueId=false;
+								JOptionPane.showMessageDialog(contentPane,"The employee ID should be unique and 5-digits long");
+							}
+							else{
+								uniqueId=true;
+							}
+						}
+						if(uniqueId==true){
+							Chauffeur chauffeur = new Chauffeur(nameText.getText(),addressText.getText(), emailText.getText(),phoneText.getText());
+							if (!wishesText.getText().equals("") && !wishesText.getText().equals("(please, separate the chauffeurs wishes with a \";\")")){
+								chauffeur.setWishes(wishesText.getText());
+							}
+							chauffeurs.addChauffeur(chauffeur);
+							chauffeurListModel.addElement(chauffeur);
+						}
+					}
+				} catch (Exception e4) {
+					JOptionPane.showMessageDialog(addChauffeur,"Please enter valid arguments", "Invalid values",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				nameText.setText("");
+				addressText.setText("");
+				wishesText.setText("(please, separate the chauffeurs wishes with a \";\")");
+				emailText.setText("");
+				phoneText.setText("");
+			}
+		});
+		JButton backChauffeur = new JButton("Back");
+		backChauffeur.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cl.show(contentPane, "changeRemoveChauffeur");
+			}
+		});
 		JButton updateChauffeurInfo = new JButton("Update chauffeur's data");
+		updateChauffeurInfo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Chauffeur selected = chauffeurJList.getSelectedValue();
+					boolean uniqueId=true;
+					for (int i = 0; i < chauffeurs.getAllChauffeurs().size(); i++) {
+						if(chauffeurs.getAllChauffeurs().get(i).getId()==Integer.parseInt(iDText.getText()) &&
+								String.valueOf(iDText.getText()).length()!=5){
+							uniqueId=false;
+							JOptionPane.showMessageDialog(contentPane,"The employee ID should be unique and 5-digits long");
+						}
+						else{
+							uniqueId=true;
+						}
+					}
+					if (!nameText.getText().equals("") && !addressText.getText().equals("") && !emailText.getText().equals("")
+							&& !phoneText.getText().equals("") && uniqueId==true){
+						selected.setName(nameText.getText());
+						selected.setAddress(addressText.getText());
+						selected.setPhoneNumber(phoneText.getText());
+						selected.setEmail(emailText.getText());
+						selected.setId(Integer.parseInt(iDText.getText()));
+						if (!wishesText.getText().equals("") && !wishesText.getText().equals("(please, separate the chauffeurs wishes with a \";\")")) {
+							selected.setWishes(wishesText.getText());
+						}
+						nameText.setText("");
+						addressText.setText("");
+						wishesText.setText("(please, separate the chauffeurs wishes with a \";\")");
+						emailText.setText("");
+						phoneText.setText("");
+						iDText.setText("");
+						cl.show(contentPane, "changeRemoveChauffeur");
+					} else {
+						JOptionPane.showMessageDialog(addChauffeur,"Please fill in all of the fields and make sure the employee ID is unique and 5 digits long");	
+					}
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(contentPane,"Something went wrong", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 		JButton cancelButton2 = new JButton("Cancel");
 		cancelButton2.addActionListener(goHome);
 		addChauffeurCenter.add(nameLabel);
@@ -424,75 +508,165 @@ public class GUI extends JFrame {
 		addChauffeur.add(addChauffeurCenter, BorderLayout.CENTER);
 		addChauffeur.add(addChauffeurSouth, BorderLayout.SOUTH);
 
-		
 		/**
 		 * panel change or remove chauffeur
 		 */
 		JPanel changeRemoveChauffeur = new JPanel(new BorderLayout());
-		changeRemoveChauffeur.setBorder(new TitledBorder("Change/Remove chauffeur's data"));
+		changeRemoveChauffeur.setBorder(new TitledBorder(
+				"Change/Remove chauffeur's data"));
+		JPanel panelChangeRemoveChauffeurEast = new JPanel(new BorderLayout());
+		panelChangeRemoveChauffeurEast.setBorder(new TitledBorder(
+				"Chauffeur's data"));
+//		JTextArea insideEastPanel = new JTextArea();
+//		chauffeurJList.addListSelectionListener(new ListSelectionListener() {	
+//			@Override
+//			public void valueChanged(ListSelectionEvent arg0) {
+//				try {
+//					String info = chauffeurJList.getSelectedValue().toString();
+//					insideEastPanel.setText(info);
+//				} catch (Exception e) {
+//					System.err.println(e.getCause());
+//				}
+//			}
+//		});
+//		insideEastPanel.setEditable(true);
+//		insideEastPanel.setLineWrap(true);
+//		insideEastPanel.setColumns(20);
 		JPanel panelChangeRemoveChauffeurNorth = new JPanel();
 		panelChangeRemoveChauffeurNorth.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		JLabel labelChauffeurID = new JLabel("Employee ID:  ");
 		JTextField chauffeurIDField1 = new JTextField(20);
+		chauffeurIDField1.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				chauffeurIDField1.setText("");
+			}
+		});
 		JButton findChauffeurButton = new JButton("Search by ID");
-		JList chauffeurJList = new JList();
+		JLabel nameLabelSearch = new JLabel("Name: ");
+		JTextField chauffeurNameField1 = new JTextField(20);
+		chauffeurNameField1.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				chauffeurNameField1.setText("");
+			}
+		});
+		JButton findChauffeurByNameButton = new JButton("Search by name");
+		findChauffeurByNameButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					if(!chauffeurs.getChauffeur(chauffeurNameField1.getText()).isEmpty()){
+						chauffeurListModel.removeAllElements();
+						for (int i = 0; i < chauffeurs.getChauffeur(chauffeurNameField1.getText()).size(); i++) {
+							chauffeurListModel.addElement(chauffeurs.getChauffeur(chauffeurNameField1.getText()).get(i));
+						}
+					}else{
+						JOptionPane.showMessageDialog(contentPane, "Chauffeur not found");
+						updateChauffeurList();
+					}
+					chauffeurNameField1.setText("");
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(contentPane, "Something went wrong","Error", JOptionPane.ERROR_MESSAGE);
+					System.err.println(e2.getCause());
+				}
+			}
+		});
+		findChauffeurButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					if(chauffeurs.getChauffeur(Integer.parseInt(chauffeurIDField1.getText()))!=null){
+						chauffeurListModel.removeAllElements();
+					chauffeurListModel.addElement(chauffeurs.getChauffeur(Integer.parseInt(chauffeurIDField1.getText())));
+					}else{
+						JOptionPane.showMessageDialog(contentPane, "Chauffeur not found");
+						updateChauffeurList();
+					}
+//					insideEastPanel.setText("");
+					chauffeurIDField1.setText("");
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(contentPane, "Something went wrong", "Error", JOptionPane.ERROR_MESSAGE);
+					System.err.println(e2.getCause());
+				}
+			}
+		});
 		JScrollPane scrollChauffeursCenter = new JScrollPane(chauffeurJList);
-		JPanel panelChangeRemoveChauffeurEast = new JPanel(new BorderLayout());
-		panelChangeRemoveChauffeurEast.setBorder(new TitledBorder("Chauffeur's data"));
-		JTextArea insideEastPanel = new JTextArea();
-		insideEastPanel.setEditable(false);
-		insideEastPanel.setLineWrap(true);
-		insideEastPanel.setColumns(20);
 		JPanel panelChangeRemoveChauffeurSouth = new JPanel(new FlowLayout());
+		JButton showAllChauffeurs = new JButton("Show all chauffeurs");
+		showAllChauffeurs.addActionListener(new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					updateChauffeurList();
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(contentPane, "Something went wrong", "Error", JOptionPane.ERROR_MESSAGE);
+					System.err.println(e2.getCause());
+				}
+			}
+		});
 		JButton changeChauffeursInformation = new JButton("Change chauffeur's data");
 		changeChauffeursInformation.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				chauffeurBorder.setTitle("Change chauffeur's data");
-				backChauffeur.setVisible(true);
-				addChauffeurButton.setVisible(false);
-				addChauffeurSouth.remove(addChauffeurButton);
-				addChauffeurSouth.add(updateChauffeurInfo);
-				updateChauffeurInfo.setVisible(true);
-				cl.show(contentPane, "addChauffeur");
+				try {
+					chauffeurBorder.setTitle("Change chauffeur's data");
+					backChauffeur.setVisible(true);
+					addChauffeurButton.setVisible(false);
+					addChauffeurSouth.remove(addChauffeurButton);
+					addChauffeurSouth.add(updateChauffeurInfo);
+					updateChauffeurInfo.setVisible(true);
+					Chauffeur selected = chauffeurJList.getSelectedValue();
+					nameText.setText(selected.getName());
+					addressText.setText(selected.getAddress());
+					phoneText.setText(selected.getPhoneNumber());
+					emailText.setText(selected.getEmail());
+					wishesText.setText(selected.getWishes());
+					cl.show(contentPane, "addChauffeur");
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(contentPane,"Something went wrong","Error",JOptionPane.ERROR_MESSAGE);
+					System.err.println(e);
+				}
 			}
 		});
-		
-		chauffeurJList.addListSelectionListener(new ListSelectionListener()
-	      {
-
-		 @Override
-		 public void valueChanged(ListSelectionEvent arg0)
-		 {
-		    String selected = chauffeurJList.getSelectedValue().getChauffeurInfo();
-		    insideEastPanel.setText(selected);
-		 }
-	      });
-      
 		JButton removeChauffeur = new JButton("Remove chauffeur");
 		removeChauffeur.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//remove chauffeur method
-				JOptionPane.showMessageDialog(contentPane, "Chauffeur removed from the system");
-				cl.show(contentPane, "home");
+				try {
+					chauffeurs.removeChauffeur(chauffeurJList.getSelectedValue());
+					chauffeurListModel.removeElementAt(chauffeurJList.getSelectedIndex());
+					updateChauffeurList();
+//					insideEastPanel.setText("");
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(contentPane,"Something went wrong", "Error", JOptionPane.ERROR_MESSAGE);
+					System.err.println(e2.getCause());
+				}
 			}
 		});
 		JButton cancelButton3 = new JButton("Cancel");
 		cancelButton3.addActionListener(goHome);
-		panelChangeRemoveChauffeurEast.add(insideEastPanel,BorderLayout.CENTER);
+		
+//		panelChangeRemoveChauffeurEast.add(insideEastPanel, BorderLayout.CENTER);
+		panelChangeRemoveChauffeurSouth.add(showAllChauffeurs);
 		panelChangeRemoveChauffeurSouth.add(changeChauffeursInformation);
 		panelChangeRemoveChauffeurSouth.add(removeChauffeur);
 		panelChangeRemoveChauffeurSouth.add(cancelButton3);
 		panelChangeRemoveChauffeurNorth.add(labelChauffeurID);
 		panelChangeRemoveChauffeurNorth.add(chauffeurIDField1);
 		panelChangeRemoveChauffeurNorth.add(findChauffeurButton);
+		panelChangeRemoveChauffeurNorth.add(nameLabelSearch);
+		panelChangeRemoveChauffeurNorth.add(chauffeurNameField1);
+		panelChangeRemoveChauffeurNorth.add(findChauffeurByNameButton);
+		
 		changeRemoveChauffeur.add(scrollChauffeursCenter, BorderLayout.CENTER);
-		changeRemoveChauffeur.add(panelChangeRemoveChauffeurNorth,BorderLayout.NORTH);
-		changeRemoveChauffeur.add(panelChangeRemoveChauffeurSouth,BorderLayout.SOUTH);
-		changeRemoveChauffeur.add(panelChangeRemoveChauffeurEast,BorderLayout.EAST);
-		
-		
+		changeRemoveChauffeur.add(panelChangeRemoveChauffeurNorth,
+				BorderLayout.NORTH);
+		changeRemoveChauffeur.add(panelChangeRemoveChauffeurSouth,
+				BorderLayout.SOUTH);
+//		changeRemoveChauffeur.add(panelChangeRemoveChauffeurEast,
+//				BorderLayout.EAST);
+
 		/**
 		 * add a new bus to the system
 		 */
@@ -507,32 +681,40 @@ public class GUI extends JFrame {
 		JTextField plateNumberField = new JTextField(10);
 		JLabel labelTypeOfBus = new JLabel("Type: ");
 		JComboBox busTypeComboBox = new JComboBox();
-		busTypeComboBox.setModel(new DefaultComboBoxModel(new String[] {"", "Mini bus", "Luxury bus", "Party bus" }));
+		busTypeComboBox.setModel(new DefaultComboBoxModel(new String[] { "",
+				"Mini bus", "Luxury bus", "Party bus" }));
 		busTypeComboBox.setSelectedIndex(0);
 		JPanel addBusSouth = new JPanel(new GridLayout(1, 0));
 		JButton addBusButton = new JButton("Add bus");
-	
 		addBusButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					
-					if(String.valueOf(busTypeComboBox.getSelectedItem()).equals("") || 
-							capacityField.getText().equals("") || 
-							plateNumberField.getText().equals("")){
-						JOptionPane.showMessageDialog(addBus, "Please fill in all of the fields");
-					}
-					else{
-						Bus bus = new Bus(
-							        Integer.parseInt(capacityField.getText()),
-								Integer.parseInt(plateNumberField.getText()),
-								String.valueOf(busTypeComboBox.getSelectedItem()));
-					
-						buses.addBus(bus);
-						busListModel.addElement(bus);
+					if (String.valueOf(busTypeComboBox.getSelectedItem()).equals("")
+							|| capacityField.getText().equals("")
+							|| plateNumberField.getText().equals("")) {
+						JOptionPane.showMessageDialog(addBus,"Please fill in all of the fields");
+					} else {
+						boolean uniqueId=true;
+						for (int i = 0; i < buses.getAllBuses().size(); i++) {
+							if(buses.getAllBuses().get(i).getId()==Integer.parseInt(plateNumberField.getText())){
+								uniqueId=false;
+								JOptionPane.showMessageDialog(addBus,"The bus' plate number should be unique");
+							}
+							else{
+								uniqueId=true;
+							}
+						}
+						if(uniqueId==true){
+							Bus bus = new Bus(Integer.parseInt(capacityField.getText()), Integer.parseInt(plateNumberField.getText()), String.valueOf(busTypeComboBox.getSelectedItem()));
+							buses.addBus(bus);
+							busListModel.addElement(bus);
+						}
 					}
 				} catch (Exception e2) {
-			      		 JOptionPane.showMessageDialog(addBus,"Please enter valid arguments","Invalid values",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(addBus,
+							"Please enter valid values", "Invalid values",
+							JOptionPane.ERROR_MESSAGE);
 				}
 				capacityField.setText("");
 				plateNumberField.setText("");
@@ -547,6 +729,42 @@ public class GUI extends JFrame {
 			}
 		});
 		JButton updateBusInfo = new JButton("Update bus' data");
+		updateBusInfo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			try{
+				Bus selected = busJList.getSelectedValue();
+				if (String.valueOf(busTypeComboBox.getSelectedItem()).equals("")
+					|| capacityField.getText().equals("")
+					|| plateNumberField.getText().equals("")) {
+				JOptionPane.showMessageDialog(addBus,"Please fill in all of the fields");
+			} else {
+				boolean uniqueId=true;
+				for (int i = 0; i < buses.getAllBuses().size(); i++) {
+					if(buses.getAllBuses().get(i).getId()==Integer.parseInt(plateNumberField.getText())){
+						uniqueId=false;
+						JOptionPane.showMessageDialog(addBus,"The bus' plate number should be unique");
+					}
+					else{
+						uniqueId=true;
+					}
+				}
+				if(uniqueId==true){
+					selected.setCapacity(Integer.parseInt(capacityField.getText()));
+					selected.setId(Integer.parseInt(plateNumberField.getText()));
+					selected.setType(String.valueOf(busTypeComboBox.getSelectedItem()));
+				}
+			}
+		} catch (Exception e2) {
+			JOptionPane.showMessageDialog(addBus,
+					"Please enter valid values", "Invalid values",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		capacityField.setText("");
+		plateNumberField.setText("");
+		busTypeComboBox.setSelectedIndex(0);
+	}
+		});
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(goHome);
 		addBusNorth.add(capacityLabel);
@@ -559,33 +777,65 @@ public class GUI extends JFrame {
 		addBusSouth.add(backBus);
 		addBus.add(addBusNorth, BorderLayout.CENTER);
 		addBus.add(addBusSouth, BorderLayout.SOUTH);
-		
-		
+
 		/**
 		 * panel change or remove bus
 		 */
 		JPanel changeRemoveBus = new JPanel(new BorderLayout());
 		changeRemoveBus.setBorder(new TitledBorder("Change/Remove bus' data"));
 		JPanel panelChangeRemoveBusNorth = new JPanel();
-		panelChangeRemoveBusNorth.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panelChangeRemoveBusNorth.setLayout(new FlowLayout(FlowLayout.CENTER,5, 5));
 		JLabel labelBusID = new JLabel("Bus plate number:  ");
 		JTextField busIDField1 = new JTextField(20);
 		JButton findBusButton = new JButton("Search by ID");
+		findBusButton.addActionListener(new ActionListener() {
+	         @Override
+	         public void actionPerformed(ActionEvent e) {
+	            try {
+	              if(buses.getBus(Integer.parseInt(plateNumberField.getText()))!=null){
+	            	  busListModel.removeAllElements();
+	                 busListModel.removeAllElements();
+	                 busListModel.addElement(buses.getBus(Integer.parseInt(plateNumberField.getText())));
+	               }
+	              else{
+	                 JOptionPane.showMessageDialog(contentPane, "Bus not found");
+	                 updateBusList();
+	               }
+	              //insideEastBusPanel.setText("");
+	              plateNumberField.setText("");
+	            } catch (Exception e2) {
+	                JOptionPane.showMessageDialog(contentPane, "Something went wrong","Error",JOptionPane.ERROR_MESSAGE);
+	               System.err.println(e2.getCause());
+	            }
+	         }
+	      });
 		JPanel panelChangeRemoveBusEast = new JPanel(new BorderLayout());
 		panelChangeRemoveBusEast.setBorder(new TitledBorder("Bus' information"));
-		JTextArea insideEastBusPanel = new JTextArea();
-		insideEastBusPanel.setEditable(false);
-		insideEastBusPanel.setLineWrap(true);
-		insideEastBusPanel.setColumns(20);
-		busJList.addListSelectionListener(new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				String selected = busJList.getSelectedValue().getBusInfo();
-				insideEastBusPanel.setText(selected);
-			}
-		});
+//		JTextArea insideEastBusPanel = new JTextArea();
+//		insideEastBusPanel.setEditable(false);
+//		insideEastBusPanel.setLineWrap(true);
+//		insideEastBusPanel.setColumns(20);
+//		busJList.addListSelectionListener(new ListSelectionListener() {
+//			@Override
+//			public void valueChanged(ListSelectionEvent e) {
+//				String selected = busJList.getSelectedValue().getBusInfo();
+//				insideEastBusPanel.setText(selected);
+//			}
+//		});
 		JScrollPane scrollBusesCenter = new JScrollPane(busJList);
 		JPanel panelChangeRemoveBusSouth = new JPanel(new FlowLayout());
+		JButton showAllBuses = new JButton("Show all buses");
+		showAllBuses.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					updateBusList();
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(contentPane, "Something went wrong", "Error", JOptionPane.ERROR_MESSAGE);
+					System.err.println(e2.getCause());
+				}
+			}
+		});
 		JButton changeBusInformation = new JButton("Change bus' data");
 		changeBusInformation.addActionListener(new ActionListener() {
 			@Override
@@ -596,23 +846,30 @@ public class GUI extends JFrame {
 				backBus.setVisible(true);
 				addBusSouth.add(updateBusInfo);
 				updateBusInfo.setVisible(true);
+				Bus selected = busJList.getSelectedValue();
+				capacityField.setText(String.valueOf(selected.getCapacity()));
+				plateNumberField.setText(String.valueOf(selected.getId()));
 				cl.show(contentPane, "addBus");
 			}
 		});
-
-              
 		JButton removeBus = new JButton("Remove bus");
 		removeBus.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				//remove chauffeur method
-				JOptionPane.showMessageDialog(contentPane, "Bus removed from the system");
-				cl.show(contentPane, "home");
-			}
-		});
+	         public void actionPerformed(ActionEvent e) {
+	            try {
+	               buses.removeBus(busJList.getSelectedValue());
+	               busListModel.removeElementAt(busJList.getSelectedIndex());
+//	               insideEastBusPanel.setText("");
+	            } catch (Exception e2) {
+	               JOptionPane.showMessageDialog(contentPane,"Something went wrong","Error",JOptionPane.ERROR_MESSAGE);
+	               System.err.println(e2.getCause());
+	            }
+		}
+			});
 		JButton cancelButtonBus = new JButton("Cancel");
 		cancelButtonBus.addActionListener(goHome);
-		panelChangeRemoveBusEast.add(insideEastBusPanel,BorderLayout.CENTER);
+//		panelChangeRemoveBusEast.add(insideEastBusPanel, BorderLayout.CENTER);
+		panelChangeRemoveBusSouth.add(showAllBuses);
 		panelChangeRemoveBusSouth.add(changeBusInformation);
 		panelChangeRemoveBusSouth.add(removeBus);
 		panelChangeRemoveBusSouth.add(cancelButtonBus);
@@ -620,11 +877,10 @@ public class GUI extends JFrame {
 		panelChangeRemoveBusNorth.add(busIDField1);
 		panelChangeRemoveBusNorth.add(findBusButton);
 		changeRemoveBus.add(scrollBusesCenter, BorderLayout.CENTER);
-		changeRemoveBus.add(panelChangeRemoveBusNorth,BorderLayout.NORTH);
-		changeRemoveBus.add(panelChangeRemoveBusSouth,BorderLayout.SOUTH);
-		changeRemoveBus.add(panelChangeRemoveBusEast,BorderLayout.EAST);
-		
-		
+		changeRemoveBus.add(panelChangeRemoveBusNorth, BorderLayout.NORTH);
+		changeRemoveBus.add(panelChangeRemoveBusSouth, BorderLayout.SOUTH);
+//		changeRemoveBus.add(panelChangeRemoveBusEast, BorderLayout.EAST);
+
 		/**
 		 * panel for adding a new trip or travel to the system
 		 */
@@ -632,7 +888,7 @@ public class GUI extends JFrame {
 		TitledBorder tripsAndTravelsTitle = new TitledBorder("Add trip/travel");
 		JPanel panelCenter = new JPanel();
 		panelCenter.setLayout(new BoxLayout(panelCenter, BoxLayout.Y_AXIS));
-		panelCenter.setBorder(tripsAndTravelsTitle);		
+		panelCenter.setBorder(tripsAndTravelsTitle);
 		ButtonGroup buttons = new ButtonGroup();
 		JRadioButton tripRadioButton = new JRadioButton("Trip");
 		tripRadioButton.setSelected(false);
@@ -681,54 +937,29 @@ public class GUI extends JFrame {
 				cl.show(contentPane, "changeTripOrTravel");
 			}
 		});
-		
-		 saveTripOrTravel.addActionListener(new ActionListener(){
-
-			 public void actionPerformed(ActionEvent e){
-			    try{
-
-			       if(String.valueOf(fromField2.getText()).equals("") || toField2.getText().equals("")|| 
-				     //depDate2.getText().equals("") || 
-				     // arrDate2.getText().equals("") || 
-				     arrTime2.getText().equals("") || 
-				     depTime2.getText().equals("") ||  String.valueOf(buttons.getSelection()).equals(""))){
-				  JOptionPane.showMessageDialog(addTripOrTravel, "Please fill in all of the fields");
-			    }
-			    else{
-			       Service service = new Service(fromField2.getText(),toField2.getText(),
-				     new Date(Integer.parseInt(depDate2.getText())), 
-				     new Date(Integer.parseInt(arrDate2.getText())),
-				     String.valueOf(buttons.getSelection()));
-			       services.addService(service);
-			       serviceListModel.addElement(service);
-			    }
-
-			    } catch(Exception e3){
-			       JOptionPane.showMessageDialog(addTripOrTravel,"Invalid values","Please enter valid arguments",JOptionPane.ERROR_MESSAGE);
-
-			    }
-			 }
-	        });
-		     
 		JButton updateTripOrTravel = new JButton("Update trip/travel");
 		JButton cancel1 = new JButton("Cancel");
 		cancel1.addActionListener(goHome);
 		JPanel panelWest = new JPanel(new BorderLayout());
 		panelWest.setBorder(new TitledBorder("Chauffeur"));
 		JList listOfAvailableChauffeur = new JList();
-		JScrollPane scrollAvailableChauffeurs = new JScrollPane(listOfAvailableChauffeur);
+		JScrollPane scrollAvailableChauffeurs = new JScrollPane(
+				listOfAvailableChauffeur);
 		JTextArea insideAvailableChauffeursPanel = new JTextArea();
 		insideAvailableChauffeursPanel.setEditable(false);
 		insideAvailableChauffeursPanel.setLineWrap(true);
 		insideAvailableChauffeursPanel.setColumns(20);
 		insideAvailableChauffeursPanel.setRows(6);
-		insideAvailableChauffeursPanel.setBorder(new TitledBorder("Chauffeur's information"));
-		listOfAvailableChauffeur.setVisibleRowCount(10);		
-		JButton checkForAvailableChauffeurs2 = new JButton("Check for available chauffeurs");
+		insideAvailableChauffeursPanel.setBorder(new TitledBorder(
+				"Chauffeur's information"));
+		listOfAvailableChauffeur.setVisibleRowCount(10);
+		JButton checkForAvailableChauffeurs2 = new JButton(
+				"Check for available chauffeurs");
 		JPanel panelEast = new JPanel(new BorderLayout());
 		panelEast.setBorder(new TitledBorder("Bus"));
 		JList listOfAvailableBuses2 = new JList();
-		JScrollPane scrollAvailableBuses = new JScrollPane(listOfAvailableBuses2);		
+		JScrollPane scrollAvailableBuses = new JScrollPane(
+				listOfAvailableBuses2);
 		JTextArea insideAvailableBusPanel = new JTextArea();
 		insideAvailableBusPanel.setEditable(false);
 		insideAvailableBusPanel.setLineWrap(true);
@@ -736,7 +967,8 @@ public class GUI extends JFrame {
 		insideAvailableBusPanel.setRows(6);
 		insideAvailableBusPanel.setBorder(new TitledBorder("Bus' information"));
 		listOfAvailableBuses2.setVisibleRowCount(10);
-		JButton checkForAvailableBuses2 = new JButton("Check for available buses");
+		JButton checkForAvailableBuses2 = new JButton(
+				"Check for available buses");
 		panelCenter.add(tripRadioButton);
 		panelCenter.add(travelRadioButton);
 		panelCenter.add(labelFrom2);
@@ -755,24 +987,25 @@ public class GUI extends JFrame {
 		panelCenter.add(priceFieldTripOrTravel);
 		panelCenter.add(cancel1);
 		panelCenter.add(backChangeTrip);
-		panelWest.add(scrollAvailableChauffeurs,BorderLayout.CENTER);
+		panelWest.add(scrollAvailableChauffeurs, BorderLayout.CENTER);
 		panelWest.add(insideAvailableChauffeursPanel, BorderLayout.NORTH);
 		panelWest.add(checkForAvailableChauffeurs2, BorderLayout.SOUTH);
 		panelEast.add(scrollAvailableBuses, BorderLayout.CENTER);
 		panelEast.add(insideAvailableBusPanel, BorderLayout.NORTH);
 		panelEast.add(checkForAvailableBuses2, BorderLayout.SOUTH);
-		addTripOrTravel.add(panelCenter,BorderLayout.CENTER);
+		addTripOrTravel.add(panelCenter, BorderLayout.CENTER);
 		addTripOrTravel.add(panelEast, BorderLayout.EAST);
 		addTripOrTravel.add(panelWest, BorderLayout.WEST);
-				
-		
+
 		/**
 		 * change trip's or travel's information
 		 */
 		JPanel changeTripOrTravel = new JPanel();
 		changeTripOrTravel.setLayout(new BorderLayout(0, 0));
-		changeTripOrTravel.setBorder(new TitledBorder("Change/remove trip or travel"));
-		JPanel changeTripTravelNorth = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		changeTripOrTravel.setBorder(new TitledBorder(
+				"Change/remove trip or travel"));
+		JPanel changeTripTravelNorth = new JPanel(new FlowLayout(
+				FlowLayout.CENTER));
 		JLabel serviceDestinationLabel = new JLabel("Destination:");
 		JTextField serviceDestinationField = new JTextField(7);
 		JButton findServiceByDestination = new JButton("Search by destination");
@@ -788,8 +1021,9 @@ public class GUI extends JFrame {
 		JTextArea insideEastPanelTorT = new JTextArea();
 		insideEastPanelTorT.setEditable(false);
 		insideEastPanelTorT.setLineWrap(true);
-		insideEastPanelTorT.setColumns(20);		
-		JPanel changeTripTravelSouth = new JPanel(new FlowLayout(FlowLayout.CENTER));		
+		insideEastPanelTorT.setColumns(20);
+		JPanel changeTripTravelSouth = new JPanel(new FlowLayout(
+				FlowLayout.CENTER));
 		JButton changeServiceButton = new JButton("Change trip/travel");
 		changeServiceButton.addActionListener(new ActionListener() {
 			@Override
@@ -803,48 +1037,33 @@ public class GUI extends JFrame {
 				cl.show(contentPane, "addTripOrTravel");
 			}
 		});
-		
-		      
-	      tripsAndTravelsList.addListSelectionListener(new ListSelectionListener()
-	      {
-
-		 @Override
-		 public void valueChanged(ListSelectionEvent arg0)
-		 {
-		    String selected = tripsAndTravelsList.getSelectedValue().getServiceInfo();
-		    insideEastPanel.setText(selected);
-		 }
-	      });
-      
 		JButton removeServiceButton = new JButton("Remove trip/travel");
 		removeServiceButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//remove chauffeur method
-				JOptionPane.showMessageDialog(contentPane, "Trip/travel removed from the system");
+				// remove chauffeur method
+				JOptionPane.showMessageDialog(contentPane,
+						"Trip/travel removed from the system");
 				cl.show(contentPane, "home");
 			}
 		});
-		
-		
 		JButton cancelButton5 = new JButton("Cancel");
-		cancelButton5.addActionListener(goHome);		
+		cancelButton5.addActionListener(goHome);
 		changeTripTravelNorth.add(serviceDestinationLabel);
 		changeTripTravelNorth.add(serviceDestinationField);
 		changeTripTravelNorth.add(findServiceByDestination);
 		changeTripTravelNorth.add(depDateLabel);
 		changeTripTravelNorth.add(depDate6);
 		changeTripTravelNorth.add(findServiceByDepDate);
-		changeTripTravelEast.add(insideEastPanelTorT,BorderLayout.CENTER);
+		changeTripTravelEast.add(insideEastPanelTorT, BorderLayout.CENTER);
 		changeTripTravelSouth.add(changeServiceButton);
 		changeTripTravelSouth.add(removeServiceButton);
-		changeTripTravelSouth.add(cancelButton5);		
+		changeTripTravelSouth.add(cancelButton5);
 		changeTripOrTravel.add(scrollPanelCenter, BorderLayout.CENTER);
 		changeTripOrTravel.add(changeTripTravelNorth, BorderLayout.NORTH);
 		changeTripOrTravel.add(changeTripTravelSouth, BorderLayout.SOUTH);
-		changeTripOrTravel.add(changeTripTravelEast,BorderLayout.EAST);
+		changeTripOrTravel.add(changeTripTravelEast, BorderLayout.EAST);
 
-				
 		/**
 		 * add all panels in the outermost panel and give them indexes
 		 */
@@ -858,14 +1077,12 @@ public class GUI extends JFrame {
 		contentPane.add(changeRemoveBus, "changeRemoveBus");
 		contentPane.add(addTripOrTravel, "addTripOrTravel");
 		contentPane.add(changeTripOrTravel, "changeTripOrTravel");
-		
-		
+
 		/**
 		 * add everything into the JFrame
 		 */
 		add(contentPane, BorderLayout.CENTER);
 
-		
 		/**
 		 * create menu
 		 */
@@ -877,7 +1094,7 @@ public class GUI extends JFrame {
 
 		JMenuItem makeNewReservation = new JMenuItem("Make a new reservation");
 		menuManageReservations.add(makeNewReservation);
-		makeNewReservation.addActionListener(new ActionListener() {		
+		makeNewReservation.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				reservationTitle.setTitle("Make reservation");
@@ -888,9 +1105,10 @@ public class GUI extends JFrame {
 			}
 		});
 
-		JMenuItem removeChangeReservation = new JMenuItem("Change/Remove reservation");
+		JMenuItem removeChangeReservation = new JMenuItem(
+				"Change/Remove reservation");
 		menuManageReservations.add(removeChangeReservation);
-		removeChangeReservation.addActionListener(new ActionListener() {		
+		removeChangeReservation.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cl.show(contentPane, "changeOrRemoveReservation");
@@ -906,7 +1124,8 @@ public class GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				backChauffeur.setVisible(false);
-				chauffeurBorder.setTitle("Add chauffeur");//to clear the previous title
+				chauffeurBorder.setTitle("Add chauffeur");// to clear the
+															// previous title
 				addChauffeur.setBorder(null);
 				addChauffeur.setBorder(chauffeurBorder);
 				addChauffeurSouth.add(addChauffeurButton);
@@ -917,12 +1136,13 @@ public class GUI extends JFrame {
 			}
 		});
 
-		JMenuItem changeOrRemoveChauffeur = new JMenuItem("Change a chauffeur's information/Remove a chauffeur");
+		JMenuItem changeOrRemoveChauffeur = new JMenuItem(
+				"Change a chauffeur's information/Remove a chauffeur");
 		menuManageChauffeurs.add(changeOrRemoveChauffeur);
 		changeOrRemoveChauffeur.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cl.show(contentPane,"changeRemoveChauffeur");
+				cl.show(contentPane, "changeRemoveChauffeur");
 			}
 		});
 
@@ -946,7 +1166,8 @@ public class GUI extends JFrame {
 			}
 		});
 
-		JMenuItem changeRemoveBusInformation = new JMenuItem("Change a bus' information/Remove a bus");
+		JMenuItem changeRemoveBusInformation = new JMenuItem(
+				"Change a bus' information/Remove a bus");
 		menuManageBuses.add(changeRemoveBusInformation);
 		changeRemoveBusInformation.addActionListener(new ActionListener() {
 			@Override
@@ -975,7 +1196,8 @@ public class GUI extends JFrame {
 			}
 		});
 
-		JMenuItem changeRemoveATriptravel = new JMenuItem("Change/Remove a trip/travel");
+		JMenuItem changeRemoveATriptravel = new JMenuItem(
+				"Change/Remove a trip/travel");
 		manageTripsAndTravels.add(changeRemoveATriptravel);
 		changeRemoveATriptravel.addActionListener(new ActionListener() {
 			@Override
@@ -986,7 +1208,6 @@ public class GUI extends JFrame {
 
 	}
 
-	
 	/**
 	 * create home panel
 	 */
@@ -1009,16 +1230,32 @@ public class GUI extends JFrame {
 		homePanel.add(insideHomePanel, BorderLayout.CENTER);
 		return homePanel;
 	}
-
 	
+	/**
+	 * update chauffeurList
+	 */
+	public void updateChauffeurList(){
+		chauffeurListModel.removeAllElements();
+		for (int i = 0; i < chauffeurs.getAllChauffeurs().size(); i++) {
+			chauffeurListModel.addElement(chauffeurs.getAllChauffeurs().get(i));
+		}
+	}
+	/**
+	    * update buslist
+	    */
+	   public void updateBusList(){
+	      busListModel.removeAllElements();
+	      for (int i = 0; i < buses.getAllBuses().size(); i++) {
+	         busListModel.addElement(buses.getAllBuses().get(i));
+	      }
+	   }
+
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		GUI frame = new GUI();
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
 	}
-
 }
-

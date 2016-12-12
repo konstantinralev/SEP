@@ -1,25 +1,27 @@
-
 public class Chauffeur
 {
    private String name;
+   private static int uniqueId = 11111;
    private int id;
    private String phoneNumber;
    private String address;
-   private String[] wishes;
+   private String wishes;
    private String email;
    
     /**
-    * sets the name, id, address, wishes, email and phoneNumber for each chauffeur
+    * sets the name, address, email and phoneNumber for each chauffeur
     * @param name
     * @param id
     * @param address
-    * @param wishes
     * @param email
     * @param phoneNumber
     */
-   public Chauffeur(String name, int id, String address, String wishes, String email, String phoneNumber){
+   public Chauffeur(String name, String address, String email, String phoneNumber){
       this.name = name;
-      this.id = id;
+      if(String.valueOf(uniqueId).length()==5){
+          this.id = uniqueId;
+          uniqueId++;
+      }
       this.address = address;
       this.phoneNumber = phoneNumber;
       this.email = email;
@@ -105,14 +107,14 @@ public class Chauffeur
     */
    public void setWishes(String wishes)
    {
-	  this.wishes = wishes.split(";");
+     this.wishes = wishes;
    }
 
 
    /**
     * @return the wishes
     */
-   public String[] getWishes()
+   public String getWishes()
    {
       return wishes;
    }
@@ -135,16 +137,17 @@ public class Chauffeur
       return email;
    }
    
-
+   
    /**
-    * @return a String with information about the chauffeur
+    * 
+    * @return a String with the chauffeur's information
     */
    public String toString(){
-      String text = "Name: " + name + "\nEmployee ID: " + id + "\nAddress: " + address +
+	  String info = "Name: " + name + "\nEmployee ID: " + id + "\nAddress: " + address +
                "\nPhone number: " + phoneNumber + "\nE-mail: " + email;
       if(wishes!=null){
-         text += "\nWishes: " + wishes;
+         info += "\nWishes: " + wishes;
       }
-      return text;
+      return info;
    }
 }
